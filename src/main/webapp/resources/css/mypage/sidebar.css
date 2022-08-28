@@ -1,0 +1,39 @@
+h4.mypageTitle {
+	font-weight: bold;
+	font-family: 'GoyangIlsan';
+}
+.mypage-info {
+	font-size: 1.3rem;
+	margin-bottom: 1.5rem;
+	font-weight: bold;
+	color: #777;
+	border-bottom: 2px solid #777;
+	padding-bottom: 1.5rem;
+}
+.sideNavMenu {
+	padding-left: 1rem;
+}
+ul.sideNav .sideNavMenu a:hover, .nowSideMenu {
+    color: #639a67;
+    font-weight: bolder;
+}
+.sideNavMenu a, .navGroup a {
+	text-decoration: none;
+	font-family: 'GoyangIlsan';
+	font-size: 0.95rem;
+}
+.navGroup a {
+	color: #000;
+}
+.sideNavMenu a {
+	color: #666;
+}
+.navGroup:not(:first-of-type) {
+	border-top: 1.5px solid #888;
+	margin-top: 0.65rem;
+	padding-top: 0.65rem;
+}
+.navGroup a {
+	font-weight: bolder;
+	font-size: 1rem;
+}

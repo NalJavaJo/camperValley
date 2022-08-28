@@ -1,0 +1,321 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'GoyangIlsan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GoyangIlsan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GoYangIlSan';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.ttf') format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GoYangIlSan';
+    font-weight: 400;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.ttf') format("truetype");
+    font-display: swap;
+}
+* {
+    font-family: 'GoYangIlSan';
+    list-style-type: none;
+}
+/* container 너비 사용자화 */
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1200px;
+	}
+}
+.container {
+	margin-bottom: 48px;
+}
+h5 {
+	font-size: 1.25rem;
+    font-weight: 600;
+    margin-left: 77px;
+    margin-top: 16px;
+    letter-spacing: 2px;
+    margin-bottom: -4px;
+}
+.chat_container {
+    margin-bottom: 35px;
+    margin: 10px auto;
+}
+#chatroom_container {
+    width: 67%;
+    float: right;
+    height: 600px;
+    overflow-x: hidden;
+}
+.chatRoom_content {
+	 margin-left: 14px;
+}
+.info_container {
+    height: 49px;
+    margin-right: 12px;
+}
+.member-info_container {
+	margin-left: 10px;
+	height: 15px;
+}
+.member-info_container > img {
+	width:40px;
+	height:40px;
+	border-radius: 50%;
+}
+.member-info_text-body {
+	position: relative;
+    left: 48px;
+    font-size: 0.9rem;
+    top: -31px;
+    line-height: 0.3rem;
+    width: 100px;
+}
+.product-info_container {
+font-size: 0.9rem;
+    float: right;
+    margin-top: -13px;
+    margin-right: 5px;
+    line-height: 1.05rem;
+}
+#transaction_btn {
+    font-size: 0.8rem;
+    float: right;
+    margin-top: -9px;
+    border: none;
+    border-radius: 2px;
+    background-color: #D9BF77;
+    height: 30px;
+    width: 70px;
+}
+#transaction_btn:hover {
+	cursor: pointer;
+}
+.product-info_text-price {
+	position: relative;
+    top: 4.5px;
+    left: 1px;
+}
+
+#chat_container {
+    vertical-align: bottom;
+    width: 100%;
+    min-height: 82%;
+    max-height: 82%;
+    display: inline-block;
+    background-color: #f4f4f4;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-bottom: 5px;
+}
+
+/* 하단 */
+#bottom-container {
+	padding-top: 5px;
+    padding-left: 5px;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+}
+#chatContent {
+    box-sizing: border-box;
+    width: 680px;
+    height: 29px;
+    background-color: #f4f4f4;
+    border: 1px solid #f4f4f4;
+    border-radius: 3px;
+    margin-left: 31px;
+    ont-size: 0.85rem;
+}
+#inputMessage:focus, #inputMessage:hover {
+	outline: none;
+	border-width: 2px;
+}
+#sendBtn {
+	background-color: #639A67;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    width: 37px;
+    color: white;
+    padding: 8px;
+}
+.extra-menu {
+    display: flex;
+    margin: -17px -7px;
+    padding: 0px;
+    width: 100%;
+}
+.plusOption {
+	width: 100%;
+    padding-left: 23px;
+    padding-top: 25px;
+    display: flex;
+}
+.option i {
+    display: flex;
+    width: 17px;
+    height: 16px;
+    cursor: pointer;
+    position: relative;
+    top: -5.5px;
+    float: right;
+    left: 503px;
+    color: lightgray;
+}
+.option img:hover {
+	color: black;
+}
+.option {
+	padding-right:10px;
+}
+#uploadImg {
+	font-size: 0.1rem;
+    position: relative;
+    right: -526px;
+    top: -8px;
+    opacity: 0;
+    cursor: pointer;
+}
+/* 채팅방 */
+.chat{
+	font-size: 0.83rem;
+    color: black;
+    background: lightgray;
+    margin: 3px;
+    padding: 5px;
+    min-width: 18px;
+    min-height: 15px;
+    width: auto;
+    height: auto;
+    text-align: left;
+    word-break: break-all;
+    display: inline-block;
+    border-radius: 5px 30px 30px 30px;
+}
+
+.my-chat{
+    text-align: left;
+    color: rgb(255, 255, 255);
+    background: #2B380C;
+    border-radius: 30px 5px 30px 30px;
+    margin-right: 1px;
+}
+
+.chat-box{
+	text-align:left;
+	padding-left: 5px;
+}
+
+.my-chat-box{
+	text-align: right;
+	padding-right: 5px;
+}
+
+
+/* 채팅방 목록 */
+/* 1단계 */
+.one_member {
+    display: flex;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    min-width: 100%;
+    align-content: center;
+    justify-content: center;
+}
+#chatList_container  {
+    z-index: 1;
+    background: rgb(255, 255, 255);
+    color: rgb(94, 92, 107);
+    border: none;
+    overflow: scroll;
+    overflow-x: hidden;
+    min-height: 435px;
+    max-height: 435px;
+    margin-top: 26px;
+    border-right: 1px solid lightgray;
+}
+.chatRoom_profile {
+    display: flex;
+    margin-top: 4px;
+    margin-left: -21px;
+}
+.other_member_img {
+	width: 39px;
+    height: 37px;
+    border-radius: 50%;
+}
+.other_member_nickname {
+	display: inline-block;
+    color: black;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+.last_message {
+    display: block;
+    font-size: 0.75rem;
+    min-width: 14.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    max-width: 14.9rem;
+}
+.chat_logtime {
+    font-size: 0.76rem;
+    position: relative;
+    right: 50px;
+    top: 5px; 
+}
+.red_circle {
+    position: relative;
+    left: 21px;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 40px;
+    top: 4.6px;
+}
+/* .unread-count {
+    display: flex;
+    font-size: 0.45rem;
+    justify-content: center;
+    color: rgb(233, 233, 233);
+    text-align: center;
+    margin-top: -3px;
+    width: 12px;
+    height: 13px;
+    border-radius: 59px;
+    background-color: #E80000;
+} */
+.titleText {
+    padding-top: -5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding-left: 10px;
+    color: gray;
+    text-align: center;
+}
+.titleText img {
+	width: 9px; 
+	height: 7px; 
+	font-weight: 900; 
+	margin-left: 3px;
+}
+.chatTitle img {
+
+}
+.chatTitleUnderline {
+	border: solid 1px #0a58ca;
+}

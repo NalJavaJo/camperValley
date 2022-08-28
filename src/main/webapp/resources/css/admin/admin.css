@@ -1,0 +1,285 @@
+@charset "UTF-8";
+
+#tb-admin tr {
+	border-bottom: 1px solid #dee2e6 !important;
+}
+
+/* 페이지바 */
+.page-item.active span.page-link {
+	background-color: #639A67;
+    border-color: #639A67;
+}
+
+.page-item .page-link {
+	color: #2B380C;
+}
+.page-item .page-link:hover {
+	color: #2B380C;
+}
+
+
+/* 버튼 */
+button.btn-primary, button.btn-primary:hover {
+	background-color: #639A67;
+	border: #639A67;
+}
+
+.btn-delete {
+	border: none;
+    background: #fff;
+    color: #e52714;
+}
+
+.btn-hover.color-5 {
+    background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+}
+.btn-hover.color-5 {
+	    border: 1px solid #dbdbdb;
+    box-shadow: 0px 4px 7px 0px #e0e0e0;
+    border-radius: 9px;
+    margin-left: 7px;
+	font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    background-size: 300% 100%;
+    height: 38px;
+}
+
+.btn-hover.color-5:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn-hover.color-5:focus {
+    outline: none;
+}
+
+.todo-input {
+    border-radius: 7px;
+    border: 1px solid #dbdbdb;
+}
+
+/* footer 임시 */
+footer {
+	margin-top: 200px;
+}
+
+#admin-container {
+	margin-top: 20px;
+}
+
+/* 대시보드 */
+.sub-title a {
+	font-weight : bold;
+}
+
+.sub-title a:hover {
+	color: #000;
+	text-decoration: none;
+}
+
+.a-title {
+	font-size: 17px;
+	font-weight: bold;
+	border-bottom: 2px solid #E6E9ED;
+	padding-bottom: 10px;
+}
+
+.se-box {
+	border: 2px solid #dee2e6;
+	padding: 10px 17px;
+	margin: 10px;
+}
+
+.sub-title a {
+	font-size: 16px;
+	color: #777;
+}
+
+.write-content {
+	font-size: 13px;
+}
+
+.write-ul {
+	border-left: 3px solid #e8e8e8;
+	padding-left: 25px;
+	padding-right: 10px;
+}
+
+.write-div {
+	margin-left: 15px;
+	padding-top: 15px;
+}
+
+.timeline {
+	position: relative;
+	left: -34px;
+	top: 16px;
+	display: block;
+	width: 14px;
+	height: 14px;
+	border: 3px solid #d2d3d2;
+	border-radius: 14px;
+	background: #f9f9f9;
+}
+
+.x-icon {
+	background-color: #fff;
+	border: none;
+	color: red;
+	float: right;
+	font-weight: bold;
+    font-size: 15px;
+}
+
+.tb-todo tr:first-child>td, .tb-todo tr:first-child>th {
+	border: none;
+}
+
+/* 회원관리 */
+.ad-btn-search {
+	border: 1px solid #dee2e6;
+	border-left: none;
+	background-color: #fff;
+	width: 40px;
+	height: 40px;
+}
+
+.ad-input-search {
+	border: 1px solid #dee2e6;
+	padding-left: 20px;
+	width: 898px;
+	height: 40px;
+	margin-right: -7px;
+}
+
+input:focus {
+	outline: none;
+}
+
+/* .btn-update {
+	border: none;
+	background-color: #fff;
+} */
+
+.btn-update:hover {
+	background-color: #639A67;
+	color: #fff;
+}
+
+#tb-admin th, #tb-admin td {
+	padding: 13px;
+	font-size: 0.870rem;
+}
+
+#tb-admin {
+	margin-top: 20px;
+}
+
+#tb-admin a {
+	color: #000;
+}
+
+#tb-admin a:hover {
+	color: #000;
+}
+
+.admin-hd {
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+
+tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.input-member {
+	border: 1px solid #BDBDBD;
+}
+
+.modal-header {
+	background-color: #639A67;
+	color: #fff;
+}
+
+.member-role {
+	border: 1px solid #BDBDBD;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	width: 163px;
+	height: 30px;
+}
+
+.modal-body {
+	font-size: 0.87rem;
+}
+
+/* report */
+.input-report {
+	border: 1px solid #BDBDBD;
+	width: 230px;
+}
+
+.input-search {
+	border: 1px solid #dee2e6;
+	padding-left: 10px;
+	width: 170px;
+	margin-right: -7px;
+}
+
+.search-group {
+	display: flex;
+	font-size: 13px;
+	height: 28px;
+}
+
+.report-category, .state-category {
+	border: 1px solid #dee2e6;
+	width: 150px;
+	height: 26px;
+	margin-left: 5px;
+}
+
+.report-state {
+	border: 1px solid #dee2e6;
+	width: 85px;
+	height: 26px;
+	margin-left: 5px;
+}
+
+.btn-search {
+	border: 1px solid #dee2e6;
+	background-color: #fff;
+}
+
+/* product */
+.modal-category {
+	width: 150px;
+	height: 35px;
+	border: 1px solid #ced4da;
+}
+
+.product-state {
+	border: 1px solid #dee2e6;
+	width: 85px;
+	height: 26px;
+	margin-left: 5px;
+}
+
+#search-type {
+	border: 1px solid #dee2e6;
+	width: 77px;
+	height: 28px;
+	font-size: 0.87rem;
+	color: #777;
+}
+
+#tb-modal, #tb-modal td>input {
+	font-size: 0.87rem;
+}

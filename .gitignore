@@ -289,4 +289,5 @@ $RECYCLE.BIN/
 
 ### Custom ###
 *.properties
+/src/main/resources/wallet/
 !/src/main/webapp/WEB-INF/lib/*.jar

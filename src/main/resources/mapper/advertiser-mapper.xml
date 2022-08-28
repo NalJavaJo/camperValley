@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.mypage.advertiser.model.dao.AdvertiserDao">
+
+<insert id="insertAdvertiser">
+	insert into
+		advertiser
+	values(
+		seq_advertiser_no.nextval,
+		#{memberId},
+		#{bizLicenseNo},
+		#{bizName},
+		default,
+		(sysdate + 9/24),
+		null
+	)
+	<selectKey keyProperty="advertiserNo" resultType="_int" order="AFTER">
+		select
+			seq_advertiser_no.currval
+		from
+			dual
+	</selectKey>
+</insert>
+
+<select id="selectAdvertiserList" resultMap="AdvertiserCollectionMap">
+	select
+		ader.*,
+		a.auth,
+		m.withdrawal,
+		l.license_file_no,
+		l.original_filename,
+		l.renamed_filename,
+		l.created_at file_created_at
+	from
+		advertiser ader join license_file l
+			on ader.advertiser_no = l.advertiser_no
+		left join (select * from authority where auth = 'ROLE_AD') a
+			on ader.member_id = a.member_id
+		join member m
+			on ader.member_id = m.member_id
+	order by ader.created_at desc
+</select>
+
+<select id="selectAdvertiserFilteredList" parameterType="map" resultMap="AdvertiserCollectionMap">
+	select
+		ader.*,
+		a.auth,
+		m.withdrawal,
+		l.license_file_no,
+		l.original_filename,
+		l.renamed_filename,
+		l.created_at file_created_at
+	from
+		advertiser ader join license_file l
+			on ader.advertiser_no = l.advertiser_no
+		left join (select * from authority where auth = 'ROLE_AD') a
+			on ader.member_id = a.member_id
+		join member m
+			on ader.member_id = m.member_id
+	<where>
+		<if test="status != null and status != ''">
+			<if test="status != 'all'">
+				m.withdrawal != 'Y'
+				and ader.deleted_at is null
+			</if>
+			<if test="status == 'waiting'">
+				and ader.biz_status = 'N'
+			</if>
+			<if test="status == 'permission'">
+				and ader.biz_status = 'Y'
+				and a.auth = 'ROLE_AD'
+			</if>
+			<if test="status == 'pause'">
+				and ader.biz_status = 'Y'
+				and a.auth is null
+			</if>
+		</if>
+		<if test="memberId != null and memberId != ''">
+			and ader.member_id like '%' || #{memberId} || '%'
+		</if>
+		<if test="bizName != null and bizName != ''">
+			and ader.biz_name like '%' || #{bizName} || '%'
+		</if>
+		<if test="bizLicenseNo != null and bizLicenseNo != ''">
+			and biz_license_no like '%' || #{bizLicenseNo} || '%'
+		</if>
+	</where>
+	order by ader.created_at desc
+</select>
+
+<resultMap type="AdvertiserExt" id="AdvertiserCollectionMap">
+	<id column="advertiser_no" property="advertiserNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="biz_license_no" property="bizLicenseNo"/>
+	<result column="biz_name" property="bizName"/>
+	<result column="biz_status" property="bizStatus"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="deleted_at" property="deletedAt"/>
+	<result column="withdrawal" property="withdrawal"/>
+	
+	<association property="licenseFile" javaType="licenseFile">
+		<id column="license_file_no" property="licenseFileNo"/>
+		<result column="advertiser_no" property="advertiserNo"/>		
+		<result column="original_filename" property="originalFilename"/>		
+		<result column="renamed_filename" property="renamedFilename"/>		
+		<result column="file_created_at" property="createdAt"/>
+	</association>
+	
+	<collection property="authorities" ofType="simpleGrantedAuthority">
+		<constructor>
+			<arg column="auth" javaType="string"/>
+		</constructor>
+	</collection>
+</resultMap>
+
+<select id="selectTotalAdvertiser" resultType="_int">
+	select
+		count(*)
+	from
+		advertiser ader join license_file l
+			on ader.advertiser_no = l.advertiser_no
+		left join (select * from authority where auth = 'ROLE_AD') a
+			on ader.member_id = a.member_id
+		join member m
+			on ader.member_id = m.member_id
+</select>
+
+<select id="selectFilteredTotalAdvertiser" resultType="_int">
+	select
+		count(*)
+	from
+		advertiser ader join license_file l
+			on ader.advertiser_no = l.advertiser_no
+		left join (select * from authority where auth = 'ROLE_AD') a
+			on ader.member_id = a.member_id
+		join member m
+			on ader.member_id = m.member_id
+	<where>
+		<if test="status != null and status != ''">
+			<if test="status != 'all'">
+				m.withdrawal != 'Y'
+				and ader.deleted_at is null
+			</if>
+			<if test="status == 'waiting'">
+				and ader.biz_status = 'N'
+			</if>
+			<if test="status == 'permission'">
+				and ader.biz_status = 'Y'
+				and a.auth = 'ROLE_AD'
+			</if>
+			<if test="status == 'pause'">
+				and ader.biz_status = 'Y'
+				and a.auth is null
+			</if>
+		</if>
+		<if test="memberId != null and memberId != ''">
+			and ader.member_id like '%' || #{memberId} || '%'
+		</if>
+		<if test="bizName != null and bizName != ''">
+			and ader.biz_name like '%' || #{bizName} || '%'
+		</if>
+		<if test="bizLicenseNo != null and bizLicenseNo != ''">
+			and biz_license_no like '%' || #{bizLicenseNo} || '%'
+		</if>
+	</where>
+</select>
+
+<select id="selectOneAdvertiserMoney" resultMap="AdvertiserMoneyMap">
+	select *
+	from
+		advertiser join (select member_id, withdrawal from member where member_id = #{memberId})
+			using(member_id)
+		join admoney using(advertiser_no)
+	where deleted_at is null and withdrawal = 'N'
+</select>
+
+<resultMap type="AdvertiserMoneyExt" id="AdvertiserMoneyMap">
+	<id column="advertiser_no" property="advertiserNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="biz_license_no" property="bizLicenseNo"/>
+	<result column="biz_name" property="bizName"/>
+	<result column="biz_status" property="bizStatus"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="deleted_at" property="deletedAt"/>
+
+	<association property="admoney" javaType="admoney">
+		<id column="admoney_no" property="admoneyNo" />
+		<result column="advertiser_no" property="advertiserNo" />
+		<result column="balance" property="balance" />
+	</association>
+</resultMap>
+
+<select id="selectNotCanceledPay" resultType="payExt" parameterType="map">
+<![CDATA[
+	select *
+	from (
+		select p.*, sum(paid_amount) over(order by paid_at desc) paid_sum
+		from pay p
+		where status != 'cancel' and advertiser_no = #{advertiserNo}
+		order by paid_at desc
+	)
+	where paid_sum <= #{maxCancelAmount}
+]]>
+</select>
+
+<select id="selectPayByMerchantUidList" parameterType="java.util.List" resultType="pay">
+	select *
+	from pay
+	<where>
+		merchant_uid in
+		<foreach collection="list" item="merchantUid" open="(" close=")" separator=",">
+		 #{merchantUid}
+		</foreach>
+	</where>
+</select>
+
+<insert id="insertAdvertisement">
+	insert into
+		advertisement
+	values(
+		seq_advertisement_no.nextval,
+		#{advertiserNo},
+		#{adName},
+		#{adZone},
+		#{adLink},
+		#{adCpc},
+		#{adDailyBudget},
+		#{adStatus},
+		(sysdate + 9/24),
+		null,
+		null
+	)
+	<selectKey keyProperty="advertisementNo" resultType="_int" order="AFTER">
+		select
+			seq_advertisement_no.currval
+		from
+			dual
+	</selectKey>
+</insert>
+
+<select id="selectAdListByAdvertiserNo" parameterType="_int" resultType="advertisementExt">
+	select
+		ad.*,
+		( select sum(daily_click_cnt) from ad_performance perform where perform.advertisement_no = ad.advertisement_no ) ad_click_cnt,
+		( select sum(daily_view_cnt) from ad_performance perform where perform.advertisement_no = ad.advertisement_no ) ad_view_cnt
+	from
+		advertisement ad
+	where
+		advertiser_no = #{advertiserNo} and deleted_at is null order by created_at desc
+</select>
+
+<select id="selectAdvertiserByMemberId" resultType="advertiser">
+	select
+		ader.*
+	from
+		advertiser ader
+			left join (select * from authority where auth = 'ROLE_AD') a
+				on ader.member_id = a.member_id
+			join member m
+				on ader.member_id = m.member_id
+	where
+		withdrawal = 'N'
+		and ader.member_id = #{memberId}
+</select>
+
+<select id="checkBalanceAndCpc" resultType="_int">
+	select
+		(money.balance - #{adCpc}) diff
+	from
+		advertisement ad
+			join admoney money
+				using(advertiser_no)
+	where ad.advertisement_no = #{advertisementNo}
+</select>
+
+<select id="selectAdvertisementForInsertPerform" resultType="int">
+	select
+		advertisement_no
+	from
+		advertisement ad
+	where
+		(select ad_performance_no from ad_performance where advertisement_no = ad.advertisement_no and display_at = trunc(sysdate + 9/24)) is null
+		and ad_status = 1
+</select>
+
+<select id="selectAdvertisementForDailyInsertPerform" resultType="int">
+	select
+		advertisement_no
+	from
+		advertisement ad
+	where
+		(select ad_performance_no from ad_performance where advertisement_no = ad.advertisement_no and display_at = trunc(sysdate + 1)) is null
+		and ad_status = 1
+</select>
+
+<insert id="dailyInsertPerformance" parameterType="java.util.List">
+	insert into
+		ad_performance (ad_performance_no, advertisement_no, display_at)
+	select
+		seq_ad_performance_no.nextval,
+		A.*,
+		trunc(sysdate + 1) display_at
+	from (
+		<foreach collection="list" item="advertisementNo" separator="union all">
+			select #{advertisementNo} advertisement_no
+			from dual
+		</foreach> ) A
+</insert>
+
+<insert id="InsertTodayPerformance" parameterType="java.util.List">
+	insert into
+		ad_performance (ad_performance_no, advertisement_no, display_at)
+	select
+		seq_ad_performance_no.nextval,
+		A.*,
+		trunc(sysdate + 9/24) display_at
+	from (
+		<foreach collection="list" item="advertisementNo" separator="union all">
+			select #{advertisementNo} advertisement_no
+			from dual
+		</foreach> ) A
+</insert>
+
+<select id="selectDisplayAd" parameterType="map" resultMap="AdvertisementCollectionMap">
+	select
+		rowtable.advertisement_no,
+		advertiser_no,
+		ad_name,
+		ad_zone,
+		ad_link,
+		ad_cpc,
+		ad_daily_budget,
+		ad_status,
+		ad_attach_no,
+		original_filename,
+		renamed_filename
+	from
+		(
+			select
+				rownum rnum,
+				a1.*
+			from (
+				select a.*, dbms_random.random random
+				from advertisement a
+				where
+					deleted_at is null
+					and ad_status = 1
+					<if test="adZone != null and adZone != ''">
+					and ad_zone = #{adZone}
+					</if>
+				order by ad_cpc desc, random desc
+			) a1
+			<if test="topN != null and topN != ''">
+			where rownum between nvl(#{beforeAd}, 1) and #{topN}
+			</if>
+		) rowtable
+		join ad_attach attach
+			on rowtable.advertisement_no = attach.advertisement_no
+	order by rnum
+</select>
+
+<resultMap type="advertisementExt" id="AdvertisementCollectionMap">
+	<id column="advertisement_no" property="advertisementNo"/>
+	<result column="advertiser_no" property="advertiserNo"/>
+	<result column="ad_name" property="adName"/>
+	<result column="ad_zone" property="adZone"/>
+	<result column="ad_link" property="adLink"/>
+	<result column="ad_cpc" property="adCpc"/>
+	<result column="ad_daily_budget" property="adDailyBudget"/>
+	<result column="ad_status" property="adStatus"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="updated_at" property="updatedAt"/>
+	<result column="deleted_at" property="deletedAt"/>
+	<result column="ad_click_cnt" property="adClickCnt"/>
+	<result column="ad_view_cnt" property="adViewCnt"/>
+	
+	<association property="adAttach" javaType="adAttach">
+		<id column="ad_attach_no" property="adAttachNo"/>
+		<result column="advertisement_no" property="advertisementNo"/>
+		<result column="original_filename" property="originalFilename"/>
+		<result column="renamed_filename" property="renamedFilename"/>
+		<result column="file_created_at" property="createdAt"/>
+	</association>
+</resultMap>
+
+<select id="selectOneAdmoneyNo" resultType="map">
+	select
+		ad.*,
+		money.*,
+		(select daily_click_cnt from ad_performance where ad.advertisement_no = advertisement_no and trunc(display_at) = trunc(sysdate + 9/24)) * ad_cpc today_cost
+	from
+		advertisement ad
+			join advertiser ader
+				on ad.advertiser_no = ader.advertiser_no
+			join admoney money
+				on ad.advertiser_no = money.advertiser_no
+	where advertisement_no = #{advertisementNo}
+</select>
+
+<select id="selectChartData" parameterType="map" resultType="map">
+<![CDATA[
+	select
+		display_at,
+		sum(perform.daily_view_cnt) sum_view,
+		sum(perform.daily_click_cnt) sum_click
+	from
+		advertisement ad
+			join (
+				select
+					advertisement_no,
+					display_at,
+					sum(daily_view_cnt) daily_view_cnt,
+					sum(daily_click_cnt) daily_click_cnt
+				from
+					ad_performance
+				group by
+					advertisement_no, display_at
+				) perform
+			on ad.advertisement_no = perform.advertisement_no
+	where
+		advertiser_no = #{advertiserNo}
+		and
+			deleted_at is null
+		and
+			display_at >= trunc(#{startDate})
+		and
+			display_at <= trunc(#{endDate})
+	group by
+		display_at
+	order
+		by display_at
+]]>
+</select>
+
+<select id="isPauseAdvertiser" resultType="_boolean">
+	select
+		count(*)
+	from
+		advertiser ader left join (select * from authority where auth = 'ROLE_AD')auth
+			on ader.member_id = auth.member_id
+		join member m
+			on ader.member_id = m.member_id
+	where
+		ader.member_id = #{memberId}
+		and withdrawal = 'N'
+		and deleted_at is null
+		and biz_status = 'Y'
+		and auth is null
+</select>
+
+<select id="isAdvertiser" resultType="_boolean">
+	select
+		count(*)
+	from
+		advertiser ader join member m
+			on ader.member_id = m.member_id
+	where
+		ader.member_id = #{memberId}
+		and ader.deleted_at is null
+		and withdrawal = 'N'
+		and biz_status = 'Y'
+</select>
+
+</mapper>

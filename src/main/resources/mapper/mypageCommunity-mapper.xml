@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.mypage.community.model.dao.MypageCommunityDao">
+
+<!-- EJ Start -->
+<select id="selectCampsiteBookmark" resultMap="CampsiteBookmarkCollectionMap">
+	select
+		*
+	from
+		campsite_bookmark cb join campsite cs
+			on cb.content_id = cs.content_id
+	where member_Id = #{memberId}
+	order by camp_bm_no desc
+</select>
+
+<resultMap type="CampsiteBookmarkExt" id="CampsiteBookmarkCollectionMap">
+	<id column="camp_bm_no" property="campBmNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="content_id" property="contentId"/>
+	
+	<association property="campsite" javaType="campsite">
+		<id column="content_id" property="contentId"/>
+		<result column="faclt_nm" property="facltNm"/>
+		<result column="line_intro" property="lineIntro"/>
+		<result column="addr1" property="addr1"/>
+		<result column="addr2" property="addr2"/>
+		<result column="tel" property="tel"/>
+		<result column="homepage" property="homepage"/>
+		<result column="first_image_url" property="firstImageUrl"/>
+	</association>
+</resultMap>
+<!-- EJ End -->
+	
+<!-- 	<select id="selectMyCamperListByMemberId" resultType="Camper">
+	select
+		*
+	from
+		camper
+	where
+		member_id = #{memberId}
+	order by
+		camper_no desc
+	</select> -->
+
+<!-- 	<select id="selectTotalMyCamper" resultType="_int">
+		select
+			count(*)
+		from
+			camper
+		where
+			member_id = #{memberId}
+	</select> -->
+	
+	<select id="searchMyCamperList" resultType="Camper">
+	<![CDATA[
+		select
+			*
+		from
+			camper
+		where
+			member_id = #{memberId}
+			and
+			${searchOption} like '%' || #{searchKeyword} || '%'
+		order by
+			camper_no desc
+	]]>
+	</select>
+	
+	<select id="searchMyReviewList" resultMap="reviewCollectionMap">
+	<![CDATA[
+		select
+			r.*,
+			(select count(*) from review_comment where review_no = r.review_no) comment_count,
+			(select count(*) from review_recommend where review_no = r.review_no and status = 'Y') recommend_count
+		from
+			campsite_review r
+		where
+			member_id=#{memberId}
+			and
+			${searchOption} like '%' || #{searchKeyword} || '%'
+		order by
+			r.review_no desc
+	]]>
+	</select> 
+	
+	<select id="searchTotalMyCamper" resultType="_int">
+	<![CDATA[
+		select
+			count(*)
+		from
+			camper
+		where
+			member_id = #{memberId}
+			and
+			${searchOption} like '%' || #{searchKeyword} || '%'
+	]]>
+	</select>
+	<select id="searchTotalMyReview" resultType="_int">
+		<![CDATA[
+			select
+				count(*) from campsite_review 
+			where
+				member_id = #{memberId}
+				and
+				${searchOption} like '%' || #{searchKeyword} || '%'
+		]]>
+	</select>
+	
+	<resultMap type="campsiteReviewExt" id="reviewCollectionMap">
+	<id column="review_no" property="reviewNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="content_id" property="contentId"/>
+	<result column="faclt_nm" property="facltNm"/>
+	<result column="review_grade" property="reviewGrade"/>
+	<result column="stay" property="stay"/>
+	<result column="merit" property="merit"/>
+	<result column="title" property="title"/>
+	<result column="content" property="content"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="updated_at" property="updatedAt"/>
+	<result column="read_count" property="readCount"/>
+	<result column="comment_count" property="commentCount"/>
+	<result column="recommend_count" property="recommendCount"/>
+	
+	<association property="member" javaType="member">
+		<id column="member_id" property="memberId"/>
+		<result column="name" property="name"/>
+		<result column="nickname" property="nickname"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="tel" property="tel"/>
+		<result column="profile_img" property="profileImg"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="withdraw" property="withdraw"/>
+		<result column="enabled" property="enabled"/>
+	</association>
+	
+	<collection property="photos" javaType="arrayList" ofType="reviewPhoto">
+  		<id column="review_photo_no" property="reviewPhotoNo"/>
+  		<result column="original_filename" property="originalFilename"/>
+  		<result column="renamed_filename" property="renamedFilename"/>
+  		<result column="created_at" property="createdAt"/>
+  	</collection>	
+  	
+	<collection property="recommends" javaType="arrayList" ofType="reviewRecommend">
+  		<id column="recommend_no" property="recommendNo"/>
+  		<result column="member_id" property="memberId"/>
+  		<result column="status" property="status"/>
+  	</collection>
+  	
+  	<collection property="comments" javaType="arrayList" ofType="reviewComment">
+  		<id column="review_comment_no" property="reviewCommentNo"/>
+  		<result column="member_id" property="memberId"/>
+  		<result column="comment_content" property="commentContent"/>
+  		<result column="comment_level" property="commentLevel"/>
+  		<result column="comment_ref" property="commentRef"/>
+  		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
+  	</collection>
+</resultMap>
+
+</mapper>

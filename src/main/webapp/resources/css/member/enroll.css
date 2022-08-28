@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+#enroll-container .btn{
+  border: 2px #639A67 solid;
+  height: 40px;
+  margin-top: 1%;
+}
+#enroll-container .btn:hover{
+  background-color: #2B380C;
+  border: 2px #2B380C solid;
+}
+#enroll-container .pointer{
+	cursor:pointer;
+}
+#enroll-container .header{
+	margin-bottom: 1.5rem;
+}
+#enroll-container .header>h4{
+  margin: 1rem 0;
+  font-weight:700 !important; 
+  color: #639A67;	
+}
+#enroll-container .line{
+  border: solid 1px #2B380C;
+  background-color: #2B380C;
+  margin-bottom: 10px;
+}
+#enroll-container .form-control{
+	margin-bottom:5px;
+}
+#enroll-container .form-control:focus, #enroll-container .form-control:hover {
+  box-shadow: none;
+  border: #639A67 2px solid;
+}
+#enroll-container table{
+  width: 100%;
+  font-size: 0.8rem;
+}
+#enroll-container th{
+  text-align: left;
+	height: 2rem;
+}
+
+/*
+#enroll-container td>div {
+  position: relative;
+}*/
+
+#enroll-container .checkbox{
+  text-align: left;
+  font-weight: 700;
+}
+#enroll-container input[type=checkbox]{
+  margin-left: 0.4rem;
+  zoom: 1.1;
+  font-size: 10px;
+}
+#enroll-container ::placeholder{
+  font-size: 0.8rem;
+}
+#enroll-container .checkbox>.line{
+  border: 1px solid #2B380C;
+  background-color: #2B380C;
+  height: 0;
+}
+#enroll-container hr{
+  background-color: #2B380C;
+  margin: 0 0 10px 0;
+}
+#enroll-container .guide{
+  font-size:0.78rem;
+  /*position: absolute;
+  font-size: 0.7rem;
+  top: 0.62rem;
+  right: 0.4rem;*/
+}
+
+#enroll-container  button.btn-camper-color:hover, #enroll-container button.btn-outline-camper-color:hover {
+	background-color: #2B380C;
+    border: 1px solid #2B380C;
+    color: #fff;
+}
+

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.community.camper.model.dao.CamperDao">
+
+<insert id="insertCamper">
+	insert into
+		camper
+	values(
+		seq_camper_no.nextval,
+		#{memberId},
+		#{title},
+		#{content},
+		#{purpose},
+		#{expectedCost},
+		#{chatUrl},
+		#{departureDate},
+		#{arrivalDate},
+		#{area},
+		#{memberCount},
+		default,
+		null,
+		default)
+</insert>
+
+<select id="selectCamperList" resultType="CamperExt">
+	select 
+		c.*, 
+		(select nickname from member where member_id = c.member_id) nickname 
+	from 
+		camper c 
+	order by 
+		c.camper_no desc
+</select>
+
+<select id="selectMoreCamperList" resultType="Camper">
+	select 
+		*
+	from
+		camper c left join member m
+			on(c.member_id = m.member_id)
+	<where>
+	<if test="isChk == null or isChk == ''">
+		status = 'I'
+	</if>
+	<if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != ''">
+		and ${searchType} like '%' || #{searchKeyword} || '%'
+	</if>
+		and m.enabled = 1
+	</where>
+	order by
+		camper_no desc
+</select>
+
+<select id="selectCamperOne" resultType="CamperExt">
+	select 
+		c.*,
+		(select nickname from member where member_id = c.member_id) nickname
+	from
+		camper c
+	where
+		camper_no = #{camperNo}
+</select>
+
+<delete id="deleteCamper">
+	delete from
+		camper
+	where
+		camper_no = #{camperNo}
+</delete>
+
+<update id="updateCamper">
+	update 
+		camper
+	set
+		title = #{title},
+		content = #{content},
+		purpose = #{purpose},
+		expected_cost = #{expectedCost},
+		chat_url = #{chatUrl},
+		departure_date = #{departureDate},
+		arrival_date = #{arrivalDate},
+		area = #{area},
+		member_count = #{memberCount},
+		updated_at = sysdate
+	where
+		camper_no = #{camperNo}
+</update>
+</mapper>

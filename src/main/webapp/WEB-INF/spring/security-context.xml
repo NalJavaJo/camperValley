@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- #9.2 bcryptPasswordEncoder빈 등록 -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<!-- #9.4. 인증/권한 설정 -->
+	<!-- static자원은 security filter처리하지 않음 -->
+	<http security="none" pattern="/resources/**" />
+	<http auto-config="true">
+	
+		<intercept-url pattern="/member/memberLogout.do" access="permitAll"/>
+		
+		<intercept-url pattern="/usedProduct/main/mainPage" access="permitAll"/>
+		<intercept-url pattern="/usedProduct/main/getProductList" access="permitAll"/>
+		<intercept-url pattern="/usedProduct/product/productDetail" access="permitAll"/>
+		<intercept-url pattern="/usedProduct/product/**" access="hasRole('USER')"/>
+		
+		<intercept-url pattern="/mypage/advertiser/register" access="isAuthenticated()"/>
+		<intercept-url pattern="/mypage/advertiser/dashboard" access="hasRole('USER')"/>
+		<intercept-url pattern="/mypage/advertiser/exit" access="hasRole('USER')"/>
+		<intercept-url pattern="/mypage/advertiser/searchChart" access="hasRole('USER')"/>
+		<intercept-url pattern="/mypage/advertiser/viewUp" access="permitAll"/>
+		<intercept-url pattern="/mypage/advertiser/clickUp" access="permitAll"/>
+		
+		<intercept-url pattern="/community/review/reviewList" access="permitAll"/>
+		<intercept-url pattern="/community/review/**" access="hasRole('USER')"/>
+		
+		<intercept-url pattern="/community/camper/camperList" access="permitAll"/>
+		<intercept-url pattern="/community/camper/moreCamperList" access="permitAll"/>
+		<intercept-url pattern="/community/camper/camperDetail" access="permitAll"/>
+		<intercept-url pattern="/community/camper/**" access="hasRole('USER')"/>
+		
+		<intercept-url pattern="/member/**" access="isAnonymous()"/>
+	
+		<intercept-url pattern="/cs/noticeEnroll" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/cs/noticeUpdate" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/cs/faqUpdate" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/cs/faqEnroll" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/cs/**" access="permitAll"/>
+		
+		<intercept-url pattern="/tradereview/**" access="hasRole('USER')"/>
+		
+		<intercept-url pattern="/mypage/advertiser/**" access="hasRole('AD')"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/campsite/**" access="permitAll"/>
+		
+		<intercept-url pattern="/" access="permitAll"/>
+ 		<intercept-url pattern="/index.jsp" access="permitAll"/>
+ 		<intercept-url pattern="/**" access="isAuthenticated()"/>
+		
+
+		<form-login
+					login-page="/member/login"
+					login-processing-url="/member/login"
+					default-target-url="/"
+					always-use-default-target="false"
+					authentication-success-forward-url="/chat/loginSuccess"
+					username-parameter="memberId" 
+					password-parameter="password"
+		/>
+		
+		<logout logout-url="/member/logout"
+				invalidate-session="true"
+				delete-cookies="JSESSIONID"
+				logout-success-url="/"/>
+
+		<csrf disabled="false"/>
+
+		<remember-me 
+			data-source-ref="dataSource"
+			token-validity-seconds="1209600"/>	
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider user-service-ref="securityService">
+			<password-encoder ref="bcryptPasswordEncoder"/>
+		</authentication-provider>
+	</authentication-manager>
+	
+	<context:component-scan base-package="com.kh.security" />
+
+	
+</beans:beans>

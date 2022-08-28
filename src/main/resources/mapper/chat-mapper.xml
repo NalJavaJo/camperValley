@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.chat.model.dao.ChatDao">
+
+<insert id="insertChatMember" parameterType="java.util.HashMap">
+	
+	insert into 
+		chat_member (chatroom_id, seller_id, buyer_id, buyer_img)
+	values (#{chatroomId}, #{sellerId}, #{buyerId}, #{buyerImg})
+	
+</insert>
+
+<select id="findRecentChatLogList" parameterType="java.util.HashMap" resultType="ChatLog">
+     
+	    select 
+	    no,
+	    chatroom_id,
+	    (
+	        select
+	            seller_id member_id
+	        from
+	            chat_member
+	        where chatroom_id = cl.chatroom_id and seller_id != #{buyerId}
+	        union
+	        select
+	            buyer_id
+	        from
+	            chat_member
+	        where chatroom_id = cl.chatroom_id and buyer_id != #{buyerId}
+	    ) member_id,
+	    msg,
+	    time
+<!-- 	    (select count(*) from chat_log where chatroom_id = cl.chatroom_id and time > (select last_check from chat_member where chatroom_id = cl.chatroom_id and seller_id = #{buyerId})) unread_count -->
+	from
+	    ( select
+	        cl.*, 
+	        row_number() over(partition by chatroom_id order by time desc) rnum 
+	    from 
+	        chat_log cl 
+	    where
+	        chatroom_id in (select chatroom_id from chat_member where buyer_id = #{buyerId} or seller_id = #{buyerId})
+	    ) cl
+	where
+	    rnum = 1 and member_id is not null
+        
+</select> 
+
+<select id="getUnreadCntBySeller" resultType="_int">
+select count(*) unread_count
+from chat_log 
+where
+    chatroom_id = #{chatroomId}
+    and member_id != #{sellerId}
+    and
+        time > ( select seller_last_check 
+                from chat_member 
+                where chatroom_id = #{chatroomId} and seller_id = #{sellerId} )
+</select>
+
+<select id="getUnreadCntByBuyer" resultType="_int">
+select count(*) unread_count
+from chat_log 
+where
+    chatroom_id = #{chatroomId}
+    and member_id != #{buyerId}
+    and
+        time > ( select buyer_last_check 
+                from chat_member
+                where chatroom_id = #{chatroomId} and buyer_id = #{buyerId} )
+</select>
+</mapper>

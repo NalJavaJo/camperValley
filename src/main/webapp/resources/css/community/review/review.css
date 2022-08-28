@@ -1,0 +1,259 @@
+@charset "UTF-8";
+
+/* reviewList.jsp start */
+.campsite-review-list-wrap {
+	width: 95%;
+}
+
+.review-list-table th, .review-list-table td {
+	font-size: .9rem;
+}
+
+.review-list-table tbody tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.review-title {
+	color: black;
+}
+
+.review-title:hover {
+	color: #639A67;
+}
+
+.page-item .page-link {
+	color: #2B380C;
+}
+
+.page-item.active span.page-link {
+	background-color: #639A67;
+    border-color: #639A67;
+}
+/* reviewList.jsp end */
+
+/* reviewErnoll.jsp start */
+.campsite-review-enroll-wrap {
+	width: 95%;
+}
+
+.review-enroll-heading span {
+	font-size: .9rem;
+}
+
+form[name=reviewEnrollFrm] {
+	font-size: .9rem;
+}
+
+.form-group.row {
+	padding: 1rem 0 1rem 0;
+    margin: 1rem 0 1rem 0;
+}
+
+.review-grade-list {
+	font-size: .9rem;
+	align-self: center;
+}
+
+.review-grade-list .fa-star {
+	color: #f7c63a;
+}
+
+.review-grade {
+	opacity: 0!important;
+	width: 0!important;
+	float: left!important;
+}
+
+.display-contents {
+	display: contents;
+}
+
+textarea[name=content] {
+	resize: none;
+	height: 15rem;
+}
+
+.required-red {
+	color: red;
+	align-self: center;
+}
+
+.ui-autocomplete {
+	z-index: 1051!important;
+	max-height: 9.5rem!important;
+	overflow-y: auto!important;
+	overflow-x: hidden!important;
+}
+/* reviewEnroll.jsp end */
+
+/* reviewUpdate.jsp start */
+.campsite-review-update-wrap {
+	width: 95%;
+}
+
+.review-update-heading span {
+	font-size: .9rem;
+}
+
+form[name=reviewUpdateFrm] {
+	font-size: .9rem;
+}
+
+.btn-outline-camper-red {
+	color: #c7392b;
+	border-color: #c7392b;
+	font-size: inherit;
+}
+
+.btn-outline-camper-red:hover {
+	color: #fff;
+    background-color: #c7392b;
+    border-color: #c7392b;
+}
+
+.btn-outline-danger:not(:disabled):not(.disabled).active {
+	color: #fff;
+    background-color: #c7392b;
+    border-color: #c7392b;
+}
+
+.delete-file-ckb-wrap {
+	width: 27rem;
+}
+/* reviewUpdate.jsp end */
+
+/* reviewDetail.jsp start */
+.campsite-review-detail-wrap {
+	width: 95%;
+}
+
+.review-detail-heading span {
+	font-size: .9rem;
+}
+
+.review-detail-heading i {
+	color: #D9BF77;
+}
+
+.review-detail-heading > span > a {
+	color: black;
+}
+
+.review-detail-content-wrap {
+	width: 90%;
+	font-size: .9rem;
+}
+
+.detail-tag-list {
+	align-self: center;
+}
+
+.detail-tag-list li {
+	font-size: .8rem;
+	margin: 1rem 0 1rem 0;
+}
+
+.badge-yellow {
+	background-color: #f7c63a;
+    border-color: #f7c63a;
+}
+.badge-yellow:hover {
+    background-color: #badc55;
+    border-color: #badc55;
+}
+
+.detail-content {
+	border: 1px solid #dee2e6;
+	height: 15rem;
+}
+
+.btn-outline-camper-blue {
+	color: #3a84c3;
+	border-color: #3a84c3;
+	font-size: inherit;
+}
+
+.btn-outline-camper-blue:hover {
+	color: #fff;
+    background-color: #3a84c3;
+    border-color: #3a84c3;
+}
+
+.btn-outline-camper-blue .active {
+	color: #fff;
+    background-color: #3a84c3;
+    border-color: #3a84c3;
+}
+
+.btn-outline-camper-blue .active:hover {
+    color: #3a84c3;
+	border-color: #3a84c3;
+	font-size: inherit;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active {
+	color: #fff;
+    background-color: #3a84c3;
+    border-color: #3a84c3;
+}
+
+.review-detail-comment-wrap {
+	font-size: .9rem;
+}
+
+textarea[name=commentContent] {
+	resize: none;
+	font-size: .9rem;
+}
+
+.review-detail-comment-wrap .card-text i {
+	color: #D9BF77;
+}
+
+.swiper-container {
+	height: 300px;
+}
+
+.swiper-slide {
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.swiper-slide img {
+	width: 250px;
+	height: 150px;
+}
+
+.swiper-button-prev {
+	background-image: url("../../../images/community/review/caret-left-solid.svg")!important;
+	background-size: 13px!important;
+}
+
+.swiper-button-next {
+	background-image: url("../../../images/community/review/caret-right-solid.svg")!important;
+	background-size: 13px!important;
+}
+
+.btn-outline-camper-delete {
+	color: #c7392b;
+	border-color: #c7392b;
+}
+
+.btn-outline-camper-delete:hover {
+	color: #fff;
+    background-color: #c7392b;
+    border-color: #c7392b;
+}
+
+.btn-ouline-camper-yellow {
+	color: #f7c63a;
+    border-color: #f7c63a;
+}
+.btn-ouline-camper-yellow:hover {
+	color: #fff;
+    background-color: #f7c63a;
+    border-color: #f7c63a;
+}
+/* reviewDetail.jsp end */

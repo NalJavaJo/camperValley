@@ -1,0 +1,205 @@
+.divInputWrapper {
+	margin: 3rem 0;
+}
+div[name="divNotice"] {
+	background-color: #f0f0f0;
+	font-size: 0.87rem;
+}
+.container #preview {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.divImgWrapper {
+	border-radius: 0.9rem;
+	width: 10rem;
+	height: 12rem;
+	overflow: hidden;
+	background-color: #f0f0f0;
+}
+.deepgreen {
+	color: #2B580C;
+}
+.midgreen {
+	color: #639A67;
+}
+.hide {
+	display: none !important;
+}
+.invisibleBtn {
+	background: none;
+	border: none;
+}
+small.failMsg {
+	color: #c7392b;
+	display: block;
+	margin: .4rem;
+}
+small.SuccessMsg {
+	color: #639A67;
+	display: block;
+	margin: .4rem;
+}
+
+.page-item .page-link {
+	color: #2B380C;
+}
+.page-item.active span.page-link {
+	background-color: #639A67;
+    border-color: #639A67;
+}
+
+
+/* ----------------------------- dashboard ----------------------------- */
+input.input-daterange {
+	width: 7rem;
+	background-color: #fff !important;
+}
+form[name="chartPeriodFrm"] .form-row > *, .divAdMoney > * {
+	margin: 0 0.2rem;
+}
+.divAdMoney > h5 > span.pusedStatusBadge {
+	font-size: .75rem;
+	height: 1.2rem;
+}
+.divAdMoney > h5 > span.advertiserName {
+	color: #D9BF77;
+}
+#adMoneyCharge {
+	color: #000;
+	text-decoration: none;
+	transition-duration: .2s;
+}
+#adMoneyCharge:hover {
+	color: #639A67;
+}
+#chartSection {
+	height: 12rem;
+	/* background-color: #ddd; */
+}
+#tblAdList thead {
+	background-color: #f0f0f0;
+	height: 2rem;
+}
+#tblAdList thead td {
+	font-size: 0.9rem;
+}
+#tblAdList td {
+	vertical-align: middle;
+	padding: 0.1rem 0.3rem;
+}
+#tblAdList td input {
+	font-size: 0.9rem;
+}
+#tblAdList td input[type="number"] {
+	width: 6rem;
+}
+input.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    border-color: #639A67;
+    background-color: #639A67;
+}
+.tdAdZone {
+	width: 8.5rem;
+}
+/* ----------------------------- dashboard ----------------------------- */
+
+/* ------------------------------ admoney ------------------------------ */
+.adMoneyWrapper {
+	width: 45rem;
+}
+.divNowAdMoney {
+	margin-top: 2rem;
+}
+.divNowAdMoney * {
+	margin: 0;
+}
+.divNowAdMoney h5 {
+	font-weight: bold;
+	letter-spacing: 0.01rem;
+	color: #639A67;
+}
+.divNowAdMoney small {
+	color: #000;
+}
+.selectBtnWrapper {
+	margin: 0.8rem 0;
+	border-top: 1px solid #888;
+	border-bottom: 1px solid #888;
+}
+.selectBtnWrapper > * {
+	width: 30rem;
+	margin: 2rem auto;
+}
+.selectBtnWrapper > button {
+	width: 30rem;	
+}
+#chargeCustom {
+	width: 20rem;
+}
+#payListWrapper {
+	max-height: 20rem;
+    overflow-y: scroll;
+}
+#payListTbl thead {
+	border-bottom: 1px solid #ddd;
+	height: 2rem;
+	background-color: #f0f0f0;
+}
+#payListWrapper::-webkit-scrollbar {
+	width: .7rem;
+	z-index: 2;
+}
+#payListWrapper::-webkit-scrollbar-thumb {
+	border-radius: 1rem;
+	background-color: #D8EBB5;
+}
+#payListWrapper::-webkit-scrollbar-thumb:hover {
+	background-color: #9bb371;
+}
+/* ------------------------------ admoney ------------------------------ */
+
+/* ----------------------------- enroll AD ----------------------------- */
+.adDetailWrapper {
+	width: 45rem;
+}
+.optionWrapper > * {
+	cursor: pointer;
+}
+.divAdZoneOptions .imgWrapper {
+	background-size: contain;
+	border: 0.3rem solid #f6f6f6;
+}
+.divAdZoneOptions .imgWrapper img {
+	width: 100%;
+}
+.divAdZoneOptions .selectedImgWapper {
+	border: 0.3rem solid #D8EBB5;
+}
+.divAdZoneOptions p {
+	font-weight: 600;
+	font-size: 0.9rem;	
+}
+.divAdZoneOptions span {
+	font-size: 0.8rem;
+}
+#upFileLabel {
+	font-size: 0.875rem;
+}
+#adPolicyHead {
+	background-color: #D8EBB5;
+	height: 2rem;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+#adPolicyLoad {
+	cursor: pointer;
+}
+#adPolicyBody {
+	display: none;
+	border-bottom: 1px solid #ddd;
+	font-size: .91rem
+}
+/* ----------------------------- enroll AD ----------------------------- */
+
+

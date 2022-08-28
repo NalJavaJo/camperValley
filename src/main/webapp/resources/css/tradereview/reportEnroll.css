@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.text-13{font-size: 13px;}
+.text-15{font-size: 15px;}
+.text-18{font-size: 18px;}
+.text-20{font-size: 20px;}
+.text-25{font-size: 25px;}
+
+@media (min-width: 576px) {
+	#reportEnroll .modal-dialog {
+		max-width: 450px;
+	}
+}
+textarea {
+	font-size: 12px;
+	outline: none;
+	resize: none;
+	border-color: rgb(235, 235, 235);
+}
+.label {
+	vertical-align: top;
+}
+.gubun {border-bottom: 1px solid #639A67;}
+.gubun-first {border-top: 1px solid #639A67;}
+.sliding i {
+	cursor: pointer;
+}

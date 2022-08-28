@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+/* 커뮤니티 헤딩 (작성자:SJ) */
+.community-heading h4 {
+	color: #b74846;
+}
+
+.community-heading h4 i {
+	font-size: 1rem;
+}
+
+.community-nav a {
+	color: black;
+	font-weight: bold;
+}
+
+.community-nav a:hover {
+	text-decoration: underline;
+}
+
+.community-nav a.active {
+	color: #d9bf77;
+}
+
+#searchType {
+    max-width: max-content;
+	font-size: .9rem;
+	height: inherit;
+}
+
+.custom-select {
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23639A67' d='M7,10L12,15L17,10H7Z'/%3E%3C/svg%3E") no-repeat right .3rem center;
+    background-size: 25px 50px;
+}
+
+.custom-select:focus,
+.custom-select:hover {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M7,10L12,15L17,10H7Z'/%3E%3C/svg%3E");
+}
+
+.community-search-input {
+	font-size: .9rem;
+	height: inherit;
+}
+
+#communitySearchBtn {
+	font-size: .9rem;
+	border-radius: 0 4px 4px 0;
+}
+
+#communitySearchBtn:hover {
+	background-color: #639A67;
+}
+
+#communitySearchBtn:hover i {
+	color: white;
+}
+
+.bootstrap-select>.dropdown-toggle {
+	border-radius: 4px 0 0 4px;
+	font-size: .9rem;
+}
+
+.bootstrap-select>.dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select>.dropdown-toggle.bs-placeholder:hover {
+	color: white!important;
+}
+
+#communityEnrollBtn {
+	font-size: .9rem;
+	height: 2.2rem;
+}

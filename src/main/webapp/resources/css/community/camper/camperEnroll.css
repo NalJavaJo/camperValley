@@ -1,0 +1,41 @@
+@charset "UTF-8";
+.text-13 {font-size: 13px;}
+.text-15 {font-size: 15px;}
+.text-20 {font-size: 20px;}
+.text-22 {font-size: 22px;}
+
+label {
+	font-size: 15px;
+	width: 120px;
+}
+input, textarea, select {
+	margin: 10px 0 10px 20px;
+	font-size: 12px;
+	outline: 1px solid rgba(0, 50, 0, 0.5);
+	border-style: none;
+	padding: 10px;
+}
+input.input-daterange {
+	background-color: #fff !important;
+	outline: 1px solid rgba(0, 50, 0, 0.5);
+	border-style: none;
+	border-radius: 0;
+}
+select {
+	width: 15%;
+}
+textarea {
+	resize: none;
+}
+.input {
+	height: 30px;
+}
+.label {
+	vertical-align: top;
+	width: 180px;
+}
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}

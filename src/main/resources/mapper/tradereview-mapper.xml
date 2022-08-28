@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.tradereview.model.dao.TradereviewDao">
+
+<insert id="insertReview">
+	insert into
+		trade_review
+	values(
+		seq_trade_review_no.nextval,
+		#{productNo},
+		#{starScore},
+		#{content},
+		default,
+		null)
+</insert>
+
+<update id="updateReview">
+	update 
+		trade_review
+	set
+		star_score = #{starScore},
+		content = #{content},
+		updated_at = sysdate
+	where
+		review_no = #{reviewNo}
+</update>
+
+<delete id="deleteReview">
+	delete from 
+		trade_review 
+	where 
+		review_no = #{reviewNo}
+
+</delete>
+
+<select id="getProfileInfo" resultType="TradeReviewExt">
+	select distinct
+		m.nickname,
+		m.profile_img,
+		u.seller_id
+	from
+    	used_product u left join member m
+       		on(u.seller_id = m.member_id)
+	where
+		u.product_no = #{no}
+</select>
+
+<select id="selectReviewListByMemberId" resultType="TradeReviewExt">
+	select 
+		t.*,
+		m.nickname,
+		m.profile_img,
+		r.report_no
+	from
+    	trade_review t left join used_product u
+        	on(t.product_no = u.product_no)
+            	left join member m
+       		on(u.buyer_id = m.member_id)
+       			left join review_report r
+            on(t.review_no = r.review_no)
+	where
+		u.seller_id = #{memberId}
+	order by
+		t.created_at desc
+</select>
+
+<select id="selectTotalReviewByMemberId" resultType="_int">
+	select 
+	    count(*)
+	from
+	    trade_review t left join used_product u
+	        on(t.product_no = u.product_no)
+	where
+	    u.seller_id = #{memberId}
+</select>
+
+
+<select id="selectCounts" resultMap="countsMap">
+	select
+		round(avg(case when u.seller_id = (select seller_id from used_product where product_no = #{no}) then t.star_score end), 1) star_score_avg,
+	    count(case when u.seller_id = (select seller_id from used_product where product_no = #{no}) and u.is_delete = 'N' then 1 end) product_count,
+	    count(case when u.seller_id = (select seller_id from used_product where product_no = #{no}) and t.review_no is not null then 1 end) review_count
+	from
+	    used_product u left join trade_review t
+	        on(u.product_no = t.product_no)
+</select>
+
+<insert id="insertReport">
+	insert into
+		review_report
+	values(
+		seq_review_report_no.nextval,
+		#{reviewNo},
+		#{category},
+		#{content},
+		default,
+		default)
+</insert>
+
+<resultMap type="map" id="countsMap">
+	<result column="star_score_avg" property="starScoreAvg"></result>
+	<result column="product_count" property="productCount"></result>
+	<result column="review_count" property="reviewCount"></result>
+</resultMap>
+</mapper>

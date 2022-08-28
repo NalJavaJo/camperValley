@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.community.review.model.dao.ReviewDao">
+
+<select id="autoComplete" parameterType="map" resultType="map">
+	select
+		content_id, faclt_nm
+	from
+		campsite
+	where
+		faclt_nm like '%'|| #{value} || '%'
+</select>
+
+<insert id="insertReview">
+  	insert into
+  		campsite_review
+  	values (
+  		seq_campsite_review_no.nextval, 
+  		#{memberId}, 
+  		#{contentId}, 
+  		#{facltNm}, 
+  		#{reviewGrade}, 
+  		#{stay}, 
+  		#{merit}, 
+  		#{title}, 
+  		#{content}, 
+  		default, null, default)
+  	<selectKey keyProperty="reviewNo" resultType="_int" order="AFTER">
+  		select
+  			seq_campsite_review_no.currval
+  		from
+  			dual
+  	</selectKey>
+</insert>
+
+<insert id="insertReviewPhoto">
+	insert into
+		review_photo
+	values (
+		seq_review_photo_no.nextval, 
+		#{reviewNo}, 
+		#{originalFilename}, 
+		#{renamedFilename}, 
+		default)
+</insert>
+
+<select id="selectReviewList" resultMap="reviewCollectionMap">
+  	select
+  		r.*, 
+  		m.*, 
+  		(select count(*) from review_comment where review_no = r.review_no) comment_count, 
+        (select count(*) from review_recommend where review_no = r.review_no and status = 'Y') recommend_count
+  	from
+  		campsite_review r 
+  			left join member m
+  				on r.member_id = m.member_id
+  	order by
+  		r.review_no desc
+</select>
+
+<select id="selectTotalReview" resultType="_int">
+	select
+ 		count(*)
+ 	from
+ 		campsite_review
+</select>
+
+<select id="searchReviewList" resultMap="reviewCollectionMap">
+  	select
+  		r.*, 
+  		m.*, 
+  		(select count(*) from review_comment where review_no = r.review_no) comment_count, 
+        (select count(*) from review_recommend where review_no = r.review_no and status = 'Y') recommend_count
+  	from
+  		campsite_review r 
+  			left join member m
+  				on r.member_id = m.member_id
+  	<where>
+  		<if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != ''">
+			<if test="searchType == 'nickname'">
+				${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchType == 'title'">
+				${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchType == 'content'">
+				${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+		</if>
+ 	</where>
+  	order by
+  		r.review_no desc
+</select>
+
+<select id="searchTotalReview" resultType="_int">
+	select
+ 		count(*)
+ 	from
+ 		campsite_review left join member
+            using(member_id)
+ 	<where>
+  		<if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != ''">
+			<if test="searchType == 'nickname'">
+				${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchType == 'title'">
+				${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchType == 'content'">
+				${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+		</if>
+ 	</where>
+</select>
+
+<update id="updateReadCount">
+	update 
+		campsite_review 
+	set 
+		read_count = read_count + 1 
+	where 
+		review_no = #{reviewNo}
+</update>
+
+<select id="selectOneReview" resultMap="reviewCollectionMap">
+  	select
+        cr.*, 
+        m.*, 
+        rp.*, 
+        rr.*, 
+        rc.*,
+		(select count(*) from review_comment where review_no = cr.review_no) comment_count
+	from
+        campsite_review cr
+                left join member m on cr.member_id = m.member_id
+                left join review_photo rp on cr.review_no = rp.review_no
+                left join review_recommend rr on cr.review_no = rr.review_no
+                left join review_comment rc on cr.review_no = rc.review_no
+	where
+        cr.review_no = #{reviewNo}
+</select>
+
+<select id="selectOneReviewPhoto" resultType="reviewPhoto">
+	select
+		*
+	from
+		review_photo
+	where
+		review_photo_no = #{reviewPhotoNo}
+</select>
+
+<delete id="deleteReviewPhoto">
+	delete from
+		review_photo
+	where
+		review_photo_no = #{reviewPhotoNo}
+</delete>
+
+<update id="updateReview">
+	update
+		campsite_review
+	set
+  		content_id = #{contentId}, 
+  		faclt_nm = #{facltNm}, 
+  		review_grade = #{reviewGrade}, 
+  		stay = #{stay}, 
+  		merit = #{merit}, 
+  		title = #{title}, 
+  		content = #{content}, 
+  		updated_at = sysdate
+  	where
+  		review_no = #{reviewNo}
+</update>
+
+<delete id="deleteReview">
+	delete from
+		campsite_review
+	where
+		review_no = #{reviewNo}
+</delete>
+
+<select id="selectReviewCommentList" resultMap="reviewCommentCollectionMap">
+select
+	rc.*,
+    m.nickname nickname,
+    m.profile_img profile_img
+from
+	review_comment rc left join member m
+		on rc.member_id = m.member_id
+where
+	review_no = #{reviewNo}
+</select>
+
+<select id="selectReviewPhotoList" resultType="reviewPhoto">
+select
+	*
+from
+	review_photo
+where
+	review_no = #{reviewNo}
+</select>
+
+<insert id="insertReviewComment">
+insert into
+	review_comment
+values (
+	seq_review_comment_no.nextval, 
+	#{reviewNo}, 
+	#{memberId}, 
+	#{commentContent}, 
+	#{commentLevel},
+	<if test="commentRef == 0">
+		null, sysdate, null)
+	</if>
+	<if test="commentRef gt 0">
+		#{commentRef}, sysdate, null)
+	</if>
+</insert>
+
+<delete id="deleteReviewComment">
+delete from
+	review_comment
+where
+	review_comment_no = #{reviewCommentNo}
+</delete>
+
+<update id="updateReviewComment">
+update
+	review_comment
+set
+	comment_content = #{commentContent}, 
+	updated_at = sysdate
+where
+	review_comment_no = #{reviewCommentNo}
+</update>
+
+<select id="recommendCheck" resultType="reviewRecommend">
+select 
+	* 
+from 
+	review_recommend 
+where 
+	review_no = #{reviewNo} 
+	and 
+	member_id = #{memberId}
+</select>
+
+<insert id="insertReviewRecommend">
+insert into
+	review_recommend
+values (
+	seq_review_recommend_no.nextval, 
+	#{reviewNo}, 
+	#{memberId}, 
+	default)
+</insert>
+
+<update id="setReviewRecommendStatusY">
+update
+	review_recommend
+set
+	status = 'Y'
+where
+	recommend_no = #{recommendNo}
+</update>
+
+<update id="setReviewRecommendStatusN">
+update
+	review_recommend
+set
+	status = 'N'
+where
+	recommend_no = #{recommendNo}
+</update>
+
+<resultMap type="campsiteReviewExt" id="reviewCollectionMap">
+	<id column="review_no" property="reviewNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="content_id" property="contentId"/>
+	<result column="faclt_nm" property="facltNm"/>
+	<result column="review_grade" property="reviewGrade"/>
+	<result column="stay" property="stay"/>
+	<result column="merit" property="merit"/>
+	<result column="title" property="title"/>
+	<result column="content" property="content"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="updated_at" property="updatedAt"/>
+	<result column="read_count" property="readCount"/>
+	<result column="comment_count" property="commentCount"/>
+	<result column="recommend_count" property="recommendCount"/>
+	
+	<association property="member" javaType="member">
+		<id column="member_id" property="memberId"/>
+		<result column="name" property="name"/>
+		<result column="nickname" property="nickname"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="tel" property="tel"/>
+		<result column="profile_img" property="profileImg"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="withdraw" property="withdraw"/>
+		<result column="enabled" property="enabled"/>
+	</association>
+	
+	<collection property="photos" javaType="arrayList" ofType="reviewPhoto">
+  		<id column="review_photo_no" property="reviewPhotoNo"/>
+  		<result column="original_filename" property="originalFilename"/>
+  		<result column="renamed_filename" property="renamedFilename"/>
+  		<result column="created_at" property="createdAt"/>
+  	</collection>	
+  	
+	<collection property="recommends" javaType="arrayList" ofType="reviewRecommend">
+  		<id column="recommend_no" property="recommendNo"/>
+  		<result column="member_id" property="memberId"/>
+  		<result column="status" property="status"/>
+  	</collection>
+  	
+  	<collection property="comments" javaType="arrayList" ofType="reviewComment">
+  		<id column="review_comment_no" property="reviewCommentNo"/>
+  		<result column="member_id" property="memberId"/>
+  		<result column="comment_content" property="commentContent"/>
+  		<result column="comment_level" property="commentLevel"/>
+  		<result column="comment_ref" property="commentRef"/>
+  		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
+  	</collection>
+</resultMap>
+
+<resultMap type="reviewComment" id="reviewCommentCollectionMap">
+	<id column="review_comment_no" property="reviewCommentNo"/>
+	<result column="review_no" property="reviewNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="comment_content" property="commentContent"/>
+	<result column="comment_level" property="commentLevel"/>
+	<result column="comment_ref" property="commentRef"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="updated_at" property="updatedAt"/>
+	
+	<association property="member" javaType="member">
+		<id column="member_id" property="memberId"/>
+		<result column="name" property="name"/>
+		<result column="nickname" property="nickname"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="tel" property="tel"/>
+		<result column="profile_img" property="profileImg"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="withdraw" property="withdraw"/>
+		<result column="enabled" property="enabled"/>
+	</association>
+</resultMap>
+
+</mapper>

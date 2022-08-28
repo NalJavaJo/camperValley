@@ -1,0 +1,122 @@
+@charset "UTF-8";
+/* ----- index.css ----- */
+.text-15 {font-size: 15px;}
+.text-18 {font-size: 18px;}
+.text-20 {font-size: 20px;}
+.text-35 {font-size: 35px;}
+.text-50 {font-size: 50px;}
+.width-1000 {width: 1000px;}
+
+/* ----- 캠핑장 검색 ----- */
+#searchWeatherBox {
+	padding: 40px 0;
+	background-size: cover;
+}
+/* form[name=searchFrm] {: 40px 0;} */
+.shadow-custom {
+	border-radius: 20px;
+	box-shadow:
+		0 2px 4px 2px rgb(0 0 0 / 10%),
+		0 8px 16px rgb(0 0 0 / 10%);
+}
+#searchFrmTop .input {
+	height: 30px;
+	width: 380px;
+	font-size: 12px;
+	outline: 1px solid rgba(0, 50, 0, 0.5);
+	border-style: none;
+}
+#inputArea option {
+	cursor: pointer;
+}
+#inputArea option:hover {
+	background-color: #639A67;
+	color: white;
+}
+#inputArea .input{
+	width: 210px;
+	cursor: pointer;
+	color: rgb(105, 105, 105);
+}
+#inputTheme .input {
+	cursor: pointer;
+	color: rgb(105, 105, 105);
+}
+
+#searchCampsite {
+	cursor: pointer;
+}
+
+
+/* ------- 달력 ------- */
+.nav-btn {cursor: pointer;}
+.days {display: flex;}
+.day {
+    width: calc(100% / 7);
+    text-align: center;
+}
+.dates {
+    display: flex;
+    flex-flow: row wrap;
+    height: 230px;
+}
+.date {
+    width: calc(100%/7);
+    text-align: center;
+    vertical-align: center;
+}
+.day:nth-child(7n + 1), .date:nth-child(7n + 1) {color: red;}
+.day:nth-child(7n), .date:nth-child(7n) {color: blue;}
+.other {opacity: 0.3;}
+
+/* ----- 날씨 조회 ----- */
+form[name=weatherFrm], div[name=calendarFrm] {margin: 70px 0;}
+#selectCalendar, #areaWeatherBox {
+	width: 480px;
+	height: 350px;
+}
+form[name=weatherFrm] .input {
+	height: 30px;
+	width: 170px;
+	font-size: 12px;
+	outline: 1px solid rgba(0, 50, 0, 0.5);
+	border-style: none;
+}
+#selectArea select {
+	cursor: pointer;
+}
+.date > div {
+	width: 30px;
+	height: 30px;
+	padding-top: 5px;
+	margin: auto;
+	border-radius: 50%;
+}
+.todayBox {
+	border: 1px solid black;;
+	border-radius: 5px;
+}
+.temp {width: 100px;}
+.main {width: 130px;}
+/* ----- 광고 조회 ----- */
+.carousel-item {
+	height: 300px;
+	background-color: rgb(225, 225, 225);
+}
+
+
+/* ----- 캠핑장 구분 조회 ----- */
+#gubunBox {
+	background-size: cover;
+}
+#campsiteGubun {padding: 70px 0;}
+#campsiteGubun .shadow-custom {
+	height: 430px;
+	width: 430px;
+}
+.campsite {
+	background-size: cover;
+	background-position: -250px;
+	cursor: pointer;
+	opacity: 0.7;
+}

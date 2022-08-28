@@ -1,0 +1,109 @@
+@charset "UTF-8";
+
+#my-community-header button.btn-outline-camper{
+	border: 2px #639A67 solid;
+	border-left: 0;
+	border-radius: 0px 4px 4px 0;
+	height:35px;	
+}
+#my-community-header input.form-control{
+	border: 2px #639A67 solid;
+	height:35px;	
+}
+#my-community-header input.form-control:hover{
+	border: #467249 2px solid;	
+}
+#my-community-header input.form-control:focus{
+    box-shadow: none;
+    border: #467249 2px solid;
+}
+#my-community-header button.dropdown-toggle{
+	border-radius: 4px 0 0 4px;
+	color: #fff;
+	background-color: #639A67;
+	height:35px;
+	border-top: 0;
+}
+#my-community-header .camper-color {
+	color: #639A67 !important;
+}
+
+#my-community-header a{
+	height:35px;
+	padding: 0 1.3rem;
+	font-weight:700;
+}
+#my-community-header a:hover, #my-community-body a:hover{
+	color:#2B580C !important;
+}
+#my-community-header .btn:focus, #my-community-header .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+#my-community-body a{
+	color:#212529;
+}
+#my-community-body table{
+	font-size: 0.87rem;
+}
+#my-community-body .title{
+	cursor:pointer;
+}
+
+#my-community-body th{
+	border-left-width: 2px;
+}
+#my-community-body td{
+	vertical-align: middle;
+}
+#my-community-body select, #camper-detail select.recruitment-status{
+	width:81px;
+	outline: 0;
+    border: 0;
+	box-shadow: none;
+	cursor: pointer;
+	background-color: inherit;;
+}
+#camper-detail select.recruitment-status{
+	text-align: right
+}
+#my-community-body tr > td:nth-child(2){
+	text-align: left;
+}
+.fa-trash-can:before{
+	color: #6c5f3b;
+	font-size: 1rem;
+}
+td form > button{
+	display: contents;
+}
+#my-community-body tr > td:nth-child(6) .btn:hover{
+	background-color : #e4d29f;
+	transition-duration : 500ms; 
+/* 	color: #978553; */
+}
+
+#my-camper-table tr > td:first-child{
+	text-align: right;
+}
+#my-camper-table tr > th:first-child{
+	width: 6.2rem;
+}
+#my-community-body tr > td > form{
+ 	display: contents; 
+}
+#camper-detail div.modal-footer .btn{
+	width:48.7%;
+	border: 2px solid #639A67 !important;
+}
+.page-item.active span.page-link {
+	background-color: #639A67;
+    border-color: #639A67;
+}
+
+.page-item .page-link {
+	color: #2B380C;
+}
+.page-item .page-link:hover {
+	color: #2B380C;
+}

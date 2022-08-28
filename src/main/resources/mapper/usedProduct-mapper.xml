@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.usedProduct.model.dao.UsedProductDao">
+
+<!-- 상품 등록 -->
+<insert id="productInsert" parameterType="usedProduct">
+	insert into 
+		used_product
+	values(
+		seq_used_product_no.nextval,
+		#{sellerId},
+		#{cateNo},
+		#{productTitle},
+		#{productContent},
+		#{productImg1},
+		#{productImg2},
+		#{productImg3},
+		#{productImg4},
+		#{productImg5},
+		#{productPrice},
+		#{productLocation},
+		#{productDeliveryFee},
+		0,
+		null,
+		null,
+		default,
+		default,
+		default
+	)
+	<selectKey keyProperty="productNo" resultType="_int" order="AFTER">
+        select
+            seq_used_product_no.currval
+        from
+            dual
+    </selectKey>
+</insert>
+
+<!-- 상품 번호 가져오기 -->
+<select id="getProductNo" resultType="Integer">
+	select last_number
+	from user_sequences
+	where sequence_name = 'SEQ_USED_PRODUCT_NO'
+</select>
+
+<!-- 메인페이지 - 상품 목록 가져오기 -->
+<select id="getProductList" parameterType="java.util.HashMap" resultType="UsedProduct">
+select *
+	from (
+		select
+			rownum rnum,
+			p.*
+		from (
+			select
+				product_no,
+				seller_id,
+				cate_no,
+				product_title,
+				product_content,
+				product_img1,
+				product_img2,
+				product_img3,
+				product_img4,
+				product_img5,
+				to_char(product_price, 'FM99,999,999') ||'원' as product_price,
+				product_location,
+				product_delivery_fee,
+				round((sysdate-product_enroll_time)*24*60) as product_enroll_time,
+				product_views,
+				transaction_date,
+				buyer_id,
+				is_delete,
+				heart
+			from
+				used_product
+            where
+                is_delete='N' and transaction_date is null 
+			order by product_enroll_time asc		
+		) p
+	)
+	where rnum between nvl(#{start}, 0) and nvl(#{end}, 10) order by product_enroll_time asc
+</select>
+
+<!-- 카테고리 -->
+<select id="cateName" resultType="String">
+	select cate_name from category where cate_no=#{cate_no}
+</select>
+
+<select id="cateProductList" parameterType="java.util.HashMap" resultType="UsedProduct">
+	select *
+	from (
+		select 
+			rownum rnum,
+			a.*
+		from (
+			select
+				p.product_no,
+				p.seller_id,
+				p.cate_no,
+				p.product_title,
+				p.product_content,
+				p.product_img1,
+				p.product_img2,
+				p.product_img3,
+				p.product_img4,
+				p.product_img5,
+				to_char(product_price, 'FM99,999,999') ||'원' as product_price,
+				p.product_location,
+				p.product_delivery_fee,
+				round((sysdate-product_enroll_time)*24*60) as product_enroll_time,
+				p.product_views,
+				p.transaction_date,
+				p.buyer_id,
+				p.is_delete,
+				p.heart,
+				m.member_id
+			from
+				used_product p join member m
+					on p.seller_id = m.member_id
+			where
+				cate_no=#{cateNo}
+				and is_delete='N' and transaction_date is null
+			order by
+			<choose>
+				<when test='order =="A"'>p.product_enroll_time desc</when>
+				<when test='order =="B"'>to_number(p.product_views) desc</when>
+				<when test='order =="C"'>to_number(p.product_price) asc</when>
+				<when test='order =="D"'>to_number(p.product_price) desc</when>
+				<otherwise>
+					p.product_enroll_time desc
+				</otherwise>
+			</choose>
+			
+		) a		
+	)
+	where rnum between nvl(#{start},1) and nvl(#{end},20)
+</select>
+
+<select id="cateProductCount" parameterType="java.util.HashMap" resultType="int">
+	select count(0)
+	from
+		used_product p join member m
+			on p.seller_id = m.member_id
+	where cate_no=#{cateNo}
+				and is_delete='N' and transaction_date is null
+</select>
+
+<select id="cateList" resultType="ProductCategory">
+	select 
+		cate_no,
+		cate_name
+	from category 
+</select>
+
+<!-- 검색 -->
+<select id="searchProductList" parameterType="java.util.HashMap" resultType="UsedProduct">
+	select *
+	from (
+		select 
+			rownum rnum,
+			a.*
+		from (
+			select
+				p.product_no,
+				p.seller_id,
+				p.cate_no,
+				p.product_title,
+				p.product_content,
+				p.product_img1,
+				p.product_img2,
+				p.product_img3,
+				p.product_img4,
+				p.product_img5,
+				to_char(p.product_price, 'FM99,999,999') ||'원' as product_price,
+				p.product_location,
+				p.product_delivery_fee,
+				round((sysdate-p.product_enroll_time)*24*60) as product_enroll_time,
+				p.product_views,
+				p.transaction_date,
+				p.buyer_id,
+				p.is_delete,
+				p.heart, 
+				m.nickname
+			from
+				used_product p join member m
+					on p.seller_id = m.member_id
+			where 
+				is_delete='N' and transaction_date is null
+				<if test=" productTitle != null and productTitle != '' ">
+				and p.product_title Like '%' || #{productTitle} || '%'
+				</if>
+				<if test=" nickname != null and nickname != '' ">
+				and m.nickname Like '%' || #{nickname} || '%'
+				</if>
+			order by
+			<choose>
+				<when test='order =="A"'>p.product_enroll_time desc</when>
+				<when test='order =="B"'>to_number(p.product_views) desc</when>
+				<when test='order =="C"'>to_number(p.product_price) asc</when>
+				<when test='order =="D"'>to_number(p.product_price) desc</when>
+				<otherwise>
+					p.product_enroll_time desc
+				</otherwise>
+			</choose>
+		) a		
+	)
+	where rnum between nvl(#{start},1) and nvl(#{end},20)
+</select>
+
+<select id="searchProductCount" parameterType="java.util.HashMap" resultType="int">
+	select count(0)
+	from
+		used_product p join member m
+			on p.seller_id = m.member_id
+	where
+		is_delete='N' and transaction_date is null
+		<if test=" productTitle != null and productTitle != '' ">
+		and p.product_title Like '%' || #{productTitle} || '%'
+		</if>
+		<if test=" nickname != null and nickname != '' ">
+		and m.nickname Like '%' || #{nickname} || '%'
+		</if>
+</select>
+<!-- 조회수 증가 -->
+<update id="viewUpdate" parameterType="String">
+	update used_product
+	set product_views = product_views + 1
+	where product_no=#{no}
+</update>
+
+<select id="productDetail" parameterType="_int" resultMap="usedProductMap">
+	select
+		product_no,
+		seller_id,
+		cate_no,
+		product_title,
+		product_content,
+		product_img1,
+		product_img2,
+		product_img3,
+		product_img4,
+		product_img5,
+		product_price,
+		product_location,
+		product_delivery_fee,
+		round((sysdate-product_enroll_time)*24*60) as product_enroll_time,
+		product_views,
+		transaction_date,
+		buyer_id,
+		is_delete,
+		heart,
+		email
+	from used_product u left join member m on(u.seller_id = m.member_id)
+	where product_no=#{productNo}
+</select>
+
+<!-- 찜 -->
+<!-- 관심상품 추가 -->
+<insert id="insertHeart" parameterType="WishProduct">
+	insert into wish_product
+	values(seq_wish_product_no.nextval, #{memberId}, #{productNo})
+</insert>
+
+<update id="updateUpHeart" parameterType="UsedProduct">
+	update used_product set heart=heart+1
+	where product_no=#{productNo}
+</update>
+
+<!-- 하트 갯수 -->
+<select id="getHeartCount" parameterType="UsedProduct" resultType="UsedProduct">
+	select heart
+	from used_product
+	where product_no=#{productNo}
+</select>
+
+<!-- 관심상품 삭제 -->
+<delete id="deleteHeart" parameterType="WishProduct">
+	delete from wish_product
+	where product_no=#{productNo} and member_id=#{memberId}
+</delete>
+
+<update id="updateDownHeart" parameterType="UsedProduct">
+	update used_product set heart=heart-1
+	where product_no=#{productNo}
+</update>
+
+<select id="findHeart" parameterType="java.util.HashMap" resultType="WishProduct">
+	select *
+	from wish_product
+	where product_no=#{productNo} and member_id=#{memberId}
+</select>
+
+<!-- 게시글 삭제 -->
+<delete id="productDelete" parameterType="int">
+	delete from
+		used_product
+	where
+		product_no = #{productNo}
+</delete>
+
+<select id="getSellerInfo" parameterType="int" resultType="Member">
+	select member_id, nickname, profile_img
+	from member m
+	join used_product u on (m.member_id = u.seller_id)
+	where product_no = #{productNo}
+</select>
+
+<select id="getSellerProdNum" parameterType="int" resultType="int">
+    select count(*)
+	from used_product
+	where seller_id = (select member_id
+					   from member m
+					   join used_product u on (m.member_id = u.seller_id)
+					   where product_no = #{productNo})
+		and is_delete = 'N'
+</select>
+
+<!-- JH START -->
+<select id="selectProductListByMemberId" resultType="UsedProduct">
+	select 
+		product_no,
+		product_title,
+		product_content,
+		product_img1,
+		product_price,
+		to_char(product_enroll_time, 'yyyy-MM-dd HH24:mi:ss') product_enroll_time,
+		buyer_id
+	from 
+		used_product
+	where 
+		seller_id = #{memberId}
+		and is_delete = 'N'
+	order by
+		product_enroll_time desc
+</select>
+
+<select id="selectTotalProductByMemberId" resultType="_int">
+	select 
+		count(*)
+	from 
+		used_product
+	where 
+		seller_id = #{memberId}
+		and is_delete = 'N'
+</select>
+<!-- JH END -->
+
+<!-- EJ START -->
+<select id="selectProductList" resultType="UsedProduct">
+	select
+		product_no,
+		seller_id,
+		cate_no,
+		product_title,
+		product_content,
+		product_img1,
+		product_img2,
+		product_img3,
+		product_img4,
+		product_img5,
+		product_price,
+		product_location,
+		product_delivery_fee,
+		(product_enroll_time + 9/24) as product_enroll_time,
+		product_views,
+		transaction_date,
+		buyer_id,
+		is_delete,
+		heart
+	from
+		used_product
+	where
+		is_delete='N' and transaction_date is null
+	order by
+		product_enroll_time desc
+</select>
+
+<update id="updateIsDelete">
+	update
+		used_product
+	set
+		is_delete = 'Y'
+	where
+		product_no = #{productNo}
+</update>
+
+<select id="getWishCount" resultType="_int">
+	select
+		count(*)
+	from
+		wish_product wish join used_product used
+			on wish.product_no = used.product_no
+		join member m
+			on wish.member_id = m.member_id
+	where
+		wish.member_id = #{memberId}
+		and
+		used.is_delete = 'N'
+		and
+		used.transaction_date is null
+		and
+		m.withdrawal = 'N'
+</select>
+
+<update id="updateUsedProductAfterSelling" parameterType="map">
+	update
+		used_product
+	set
+		transaction_date = sysdate,
+		buyer_id = #{buyerId}
+	where
+		product_no = #{productNo}
+</update>
+<!-- EJ END -->
+
+<!-- SJ START -->
+<update id="updateUsedProduct">
+	update
+		used_product
+	set
+		cate_no = #{cateNo},
+		product_title = #{productTitle},
+		product_content = #{productContent},
+		product_img1 = #{productImg1},
+		product_img2 = #{productImg2},
+		product_img3 = #{productImg3},
+		product_img4 = #{productImg4},
+		product_img5 = #{productImg5},
+		product_price = #{productPrice},
+		product_location = #{productLocation},
+		product_delivery_fee = #{productDeliveryFee}
+  	where
+  		product_no = #{productNo}
+</update>
+
+<resultMap type="usedProductExt" id="usedProductMap">
+	<id column="product_no" property="productNo"/>
+	<result column="seller_id" property="sellerId"/>
+	<result column="cate_no" property="cateNo"/>
+	<result column="product_title" property="productTitle"/>
+	<result column="product_content" property="productContent"/>
+	<result column="product_img1" property="productImg1"/>
+	<result column="product_img2" property="productImg2"/>
+	<result column="product_img3" property="productImg3"/>
+	<result column="product_img4" property="productImg4"/>
+	<result column="product_img5" property="productImg5"/>
+	<result column="product_price" property="productPrice"/>
+	<result column="product_location" property="productLocation"/>
+	<result column="product_delivery_fee" property="productDeliveryFee"/>
+	<result column="product_enroll_time" property="productEnrollTime"/>
+	<result column="product_views" property="productViews"/>
+	<result column="transaction_date" property="transactionDate"/>
+	<result column="buyer_id" property="buyerId"/>
+	<result column="is_delete" property="isDelete"/>
+	<result column="heart" property="heart"/>
+	
+	<association property="member" javaType="member">
+		<id column="member_id" property="memberId"/>
+		<result column="name" property="name"/>
+		<result column="nickname" property="nickname"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="tel" property="tel"/>
+		<result column="profile_img" property="profileImg"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="withdraw" property="withdraw"/>
+		<result column="enabled" property="enabled"/>
+	</association>
+</resultMap>
+<!-- SJ END -->
+</mapper>

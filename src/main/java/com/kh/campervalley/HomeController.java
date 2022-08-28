@@ -1,46 +1,62 @@
 package com.kh.campervalley;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.campervalley.member.model.dto.Member;
+import com.kh.campervalley.mypage.advertiser.model.dto.AdZone;
+import com.kh.campervalley.mypage.advertiser.model.dto.AdvertisementExt;
+import com.kh.campervalley.mypage.advertiser.model.service.AdvertiserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
+@Slf4j
 public class HomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public String home(Locale locale, Model model) {
-//		logger.info("Welcome home! The client locale is {}.", locale);
-//		
-//		Date date = new Date();
-//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//		
-//		String formattedDate = dateFormat.format(date);
-//		
-//		model.addAttribute("serverTime", formattedDate );
-//		
-//		return "home";
-//	}
+	@Autowired
+	private AdvertiserService advertiserService;
 	
 	@GetMapping("/")
-	public String index() {
-//		logger.info("GET / 요청!");
-		return "forward:/index.jsp";
+	public ModelAndView index(HttpServletRequest request, ModelAndView mav, @AuthenticationPrincipal Member loginMember) {
+		log.debug("GET / 요청!");
+		Map<String, Object> param = new HashMap<>();
+		try {
+			HttpSession session = request.getSession();
+			if(loginMember != null) {
+				boolean isPauseAdvertiser = advertiserService.isPauseAdvertiser(loginMember.getMemberId());
+				boolean isAdvertiser = advertiserService.isAdvertiser(loginMember.getMemberId());
+				log.debug("isPauseAdvertiser = {}", isPauseAdvertiser);
+				log.debug("isAdvertiser = {}", isAdvertiser);
+				
+				// 권한정지광고주 true, 권한보유 광고주 false
+				session.setAttribute("isPauseAdvertiser", isPauseAdvertiser);
+				session.setAttribute("isAdvertiser", isAdvertiser);
+			}
+			
+			List<AdvertisementExt> adList = advertiserService.getDisplayAdList(3, AdZone.mainHome);
+			//log.debug("adList = {}", adList);
+
+			mav.addObject("adList", adList);
+			mav.setViewName("index");
+		} catch(Exception e) {
+			log.error("홈페이지 로드 오류", e);
+			throw e;
+		}
+		return mav;
 	}
 	
 }

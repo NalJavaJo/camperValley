@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.admin.model.dao.AdminDao">
+
+<select id="selectReportList" resultMap="reportMap">
+	select
+           r.*,
+           t.content review,
+           u.seller_id,
+           u.product_no,
+           m.member_id member_id,
+           a.auth
+       from
+           review_report r join trade_review t
+           	on(r.review_no = t.review_no)
+           join used_product u
+           	on(t.product_no = u.product_no)
+           join member m
+           	on(u.buyer_id = m.member_id)
+           join authority a
+           	on(a.member_id = m.member_id)
+       order by
+	   	   r.state_yn
+</select>
+
+<select id="selectTotalReportList" resultType="_int">
+	select
+		count(*) 
+	from 
+		review_report
+</select>
+
+<select id="selectMemberList" resultMap="memberMap">
+	select
+	    *
+	from
+	    member m join authority a
+	        on m.member_id = a.member_id
+    <where>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			m.member_id like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+	order by
+	    enroll_date desc
+</select>
+
+<select id="selectTotalMemberList" resultType="_int">
+	select
+		count(*)
+	from
+		member
+	<where>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			member_id like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+</select>
+
+<update id="memberUpdate">
+	update
+		member
+	set
+		nickname = #{nickname},
+		email = #{email},
+		tel= #{tel}
+	where
+		member_id = #{memberId}
+</update>
+
+<select id="selectOneMember" resultType="member">
+		select
+			*
+		from
+			member
+		where
+			member_id = #{memberId}
+</select>
+
+<select id="selectCamperList" resultMap="camperMap">
+	select
+		*
+	from
+		camper
+	<where>
+		<if test="searchType == 'title'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchType == 'content'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+	order by camper_no desc
+</select>
+
+<select id="selectTotalCamperList" resultType="_int">
+	select
+		count(*)
+	from
+		camper
+	<where>
+		<if test="searchType == 'title'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchType == 'content'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+</select>
+
+<select id="selectProductList" resultMap="productMap">
+	select 
+		* 
+	from
+		used_product 
+	<where>
+		<if test="searchType == 'product_title'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchType == 'product_content'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+		and is_delete = 'N'
+	</where>
+	order by product_no desc
+</select>
+
+<select id="selectTotalProductList" resultType="_int">
+	select
+		count(*)
+	from
+		used_product
+	<where>
+	<if test="searchType == 'product_title'">
+		${searchType} like '%' || #{searchKeyword} || '%'
+	</if>
+	<if test="searchType == 'product_content'">
+		${searchType} like '%' || #{searchKeyword} || '%'
+	</if>
+		and is_delete = 'N'
+	</where>
+</select>
+
+<delete id="productDelete">
+	delete from
+		used_product
+	where
+		product_no = #{productNo}
+</delete>
+
+<select id="selectReviewList" resultMap="reviewMap">
+	select
+		*
+	from
+		campsite_review
+	<where>
+		<if test="searchType == 'title'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchType == 'content'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+	order by review_no desc
+</select>
+
+<select id="selectTotalReviewList" resultType="_int">
+	select
+		count(*)
+	from
+		campsite_review
+	<where>
+		<if test="searchType == 'title'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchType == 'content'">
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+</select>
+
+<delete id="camperDelete">
+	delete from
+		camper
+	where
+		camper_no = #{camperNo}
+</delete>
+
+<delete id="reviewDelete">
+	delete from
+		campsite_review
+	where
+		review_no = #{reviewNo}
+</delete>
+
+<delete id="deleteMemberRole">
+	delete from
+		authority
+	where
+		member_id = #{memberId} and auth = 'ROLE_ADMIN'
+</delete>
+
+<insert id="insertAuthority">
+	insert into
+	  	authority
+	values
+	    (
+	        'ROLE_ADMIN', #{memberId}
+	    )
+</insert>
+
+<delete id="deleteBlack">
+	delete from
+			authority
+	where
+		member_id = #{memberId} and auth = 'ROLE_BLACK'
+</delete>
+
+<insert id="insertBlack">
+	insert into
+	  	authority
+	values
+	    (
+	        'ROLE_BLACK', #{memberId}
+	    )
+</insert>
+
+<delete id="deleteBuyerBlack">
+	delete from
+			authority
+	where
+		member_id = #{memberId} and auth = 'ROLE_BLACK'
+</delete>
+
+<insert id="insertBuyerBlack">
+	insert into
+	  	authority
+	values
+	    (
+	        'ROLE_BLACK', #{memberId}
+	    )
+</insert>
+
+<insert id="insertTodo">
+	insert into 
+		todo 
+	values(
+		seq_todo_no.nextval, 
+		#{todo}, 
+		default, 
+		default)
+</insert>
+
+<select id="selectTodoList" resultType="todo">
+	select 
+		* 
+	from
+		(select
+		   todo_no, todo, created_at, completed_at
+		from
+		    todo
+		where
+		    completed_at is null order by todo_no)
+	union all 
+	select * from
+		(select
+		    todo_no, todo, created_at, completed_at
+		from
+		    todo
+		where
+		    completed_at is not null
+		order by completed_at desc)
+</select>
+
+<update id="updateTodo">
+	update
+		todo
+	set
+		<if test="isCompleted">
+			completed_at = sysdate
+		</if>
+		<if test="!isCompleted">
+			completed_at = null
+		</if>
+	where
+		todo_no = #{todoNo}
+</update>
+
+<delete id="deleteTodo">
+ 	delete from
+		todo
+	where
+		todo_no = #{todoNo}
+</delete>
+
+<update id="updateReport">
+	update 
+		review_report 
+	set 
+		state_yn = 'Y'
+	where 
+		report_no = #{reportNo}
+</update>
+
+<resultMap type="ReviewReportExt" id="reportMap">
+		<id column="report_no" property="reportNo"/>
+		<result column="review_no" property="reviewNo"/>
+		<result column="category" property="category"/>
+		<result column="content" property="content"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="state_yn" property="stateYn"/>
+		<result column="seller_id" property="sellerId"/>
+		<result column="member_id" property="memberId"/>
+		<result column="product_no" property="productNo"/>
+		<result column="review" property="review"/>
+		<collection property="authorities" ofType="simpleGrantedAuthority">
+			<constructor>
+				<arg column="auth" javaType="string"/>
+			</constructor>	
+		</collection>
+	</resultMap>
+
+	
+<resultMap type="member" id="memberMap">
+		<id column="member_id" property="memberId"/>
+		<result column="name" property="name"/>
+		<result column="nickname" property="nickname"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="tel" property="tel"/>
+		<result column="profile_img" property="profileImg"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="created_at" property="updatedAt"/>
+		<result column="withdrawal" property="withdrawal"/>
+		<result column="enabled" property="enabled"/>
+		<collection property="authorities" ofType="simpleGrantedAuthority">
+			<constructor>
+				<arg column="auth" javaType="string"/>
+			</constructor>	
+		</collection>
+	</resultMap>
+
+<resultMap type="campsiteReview" id="reviewMap">
+	<id column="review_no" property="reviewNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="content_id" property="contentId"/>
+	<result column="faclt_nm" property="facltNm"/>
+	<result column="review_grade" property="reviewGrade"/>
+	<result column="stay" property="stay"/>
+	<result column="merit" property="merit"/>
+	<result column="title" property="title"/>
+	<result column="content" property="content"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="updated_at" property="updatedAt"/>
+	<result column="read_count" property="readCount"/>
+</resultMap>
+
+<resultMap type="camper" id="camperMap">
+	<id column="camper_no" property="camperNo"/>
+	<result column="member_id" property="memberId"/>
+	<result column="title" property="title"/>
+	<result column="content" property="content"/>
+	<result column="purpose" property="purpose"/>
+	<result column="expected_cost" property="expectedCost"/>
+	<result column="chat_url" property="chatUrl"/>
+	<result column="departure_date" property="departureDate"/>
+	<result column="arrival_date" property="arrivalDate"/>
+	<result column="area" property="area"/>
+	<result column="member_count" property="memberCount"/>
+	<result column="read_count" property="readCount"/>
+	<result column="created_at" property="createdAt"/>
+	<result column="updated_at" property="updatedAt"/>
+	<result column="status" property="status"/>
+</resultMap>
+	
+<resultMap type="usedProduct" id="productMap">
+	<id column="product_no" property="productNo"/>
+	<result column="seller_id" property="sellerId"/>
+	<result column="cate_no" property="cateNo"/>
+	<result column="product_title" property="productTitle"/>
+	<result column="product_content" property="productContent"/>
+	<result column="product_img1" property="productImg1"/>
+	<result column="product_img2" property="productImg2"/>
+	<result column="product_img3" property="productImg3"/>
+	<result column="product_img4" property="productImg4"/>
+	<result column="product_img5" property="productImg5"/>
+	<result column="product_price" property="productPrice"/>
+	<result column="product_location" property="productLocation"/>
+	<result column="product_delivery_fee" property="productDeliveryFee"/>
+	<result column="product_enroll_time" property="productEnrollTime"/>
+	<result column="product_views" property="productViews"/>
+	<result column="transcation_date" property="transactionDate"/>
+	<result column="buyer_id" property="buyerId"/>
+	<result column="is_delete" property="isDelete"/>
+</resultMap>
+</mapper>

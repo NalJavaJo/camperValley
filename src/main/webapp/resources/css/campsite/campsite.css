@@ -1,0 +1,272 @@
+@charset "UTF-8";
+
+/* searhDetail/searchTheme.jsp start */
+.campsite-search-wrap {
+	background-image: url("../../images/campsite/campsiteSearchBanner.jpg");
+	height: 350px;
+}
+
+.campsite-search-wrap, .campsite-result-wrap {
+	font-size: .9rem;	
+}
+
+.campsite-search {
+	background-color: white;
+	opacity: .8;
+	font-weight: bold;
+}
+
+.campsite-result {
+	height: 31rem;
+	overflow-y: scroll;
+	-ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.campsite-result::-webkit-scrollbar {
+    display: none;
+}
+
+.campsite-result a {
+	text-decoration: none;
+	color: black;
+}
+
+.campsite-result a:hover {
+	color: #639A67;
+}
+
+.btn-success, .btn-outline-success, .form-control {
+	font-size: .9rem;
+}
+
+#sido, #gugun {
+	height: inherit;
+    max-width: max-content;
+	font-size: .9rem;
+}
+
+select.custom-select {
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23639A67' d='M7,10L12,15L17,10H7Z'/%3E%3C/svg%3E") no-repeat right .3rem center;
+    background-size: 25px 50px;
+}
+
+select.custom-select:focus,
+select.custom-select:hover {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M7,10L12,15L17,10H7Z'/%3E%3C/svg%3E");
+}
+
+.search-header {
+	font-size: 1rem;
+	align-self: center;
+}
+
+label[for=facltNm] {
+	align-self: center;
+	margin: 0;
+}
+
+.facltNm-search-btn-wrap {
+	height: 2.3rem;
+	border-radius: 4px 0 0 4px!important;
+}
+
+.result-list-content > ul > li {
+	padding: 1rem;
+}
+
+.result-list-content > ul >li > h6 {
+	font-weight: bold;
+}
+
+.result-list-img {
+	width: 10rem;
+	height: 10rem;
+}
+
+.result-map {
+	width: 31rem;
+    height: 31rem;
+}
+
+.btn-outline-success:not(:disabled):not(.disabled).active, 
+.btn-outline-success:not(:disabled):not(.disabled):active, 
+.show>.btn-outline-success.dropdown-toggle {
+    color: #fff;
+    background-color: #639A67;
+    border-color: #639A67;
+}
+
+.img-thumbnail {
+	height: -webkit-fill-available;
+}
+
+.result-list-content>.list-group-flush>.list-group-item {
+    width: 25rem!important;
+}
+
+#conditionsModal .modal-footer button {
+	font-size: .8rem!important;
+}
+
+#conditionsModal .modal-body div {
+	justify-content: center;
+}
+
+#conditionsModal small {
+	align-self: center!important;
+	font-size: .8rem!important;
+	color: #c7392b;
+}
+
+#selectThemeBtn {
+	background-color: white!important;
+	border: none!important;
+	font-weight: bold!important;
+}
+
+#selectThemeBtn:hover {
+	color: #D9BF77;
+	border-bottom: .1rem dashed #D9BF77!important;
+}
+/* searhDetail/searchTheme.jsp end */
+
+/* infoView.jsp start */
+.campsite-info-table-wrap {
+	font-size: .9rem;
+	width: 95%;
+}
+
+.campsite-info-tab-wrap button {
+	font-size: .9rem;
+	font-weight: bold;
+}
+
+.campsite-info-tab-wrap .nav-link {
+	border: 1px solid #639A67;
+	border-radius: 0;
+}
+
+.campsite-info-tab-wrap .nav-link.active {
+	background-color: #639A67;
+	border-radius: 0;
+}
+
+#infoViewTabContent h6 {
+	font-weight: bold;
+}
+
+#infoViewTabContent h6 i {
+	color: #D9BF77;
+}
+
+.basic-info-table th, .basic-info-table td {
+	vertical-align: middle;
+}
+
+.basic-info-table tr:last-child td {
+	text-align: center;
+}
+
+.basic-info-table a {
+	color: #c7392b;
+	text-decoration: none;
+}
+
+.basic-info-table a:hover {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.info-view-title {
+	align-self: center;
+}
+
+#bookmarkBtn, #bookmarkCancelBtn {
+	width: 9rem;
+}
+
+#bookmarkCancelBtn {
+	color: #fff;
+}
+#bookmarkCancelBtn:hover {
+	background-color: #fff;
+	color: #639A67;
+}
+
+#bookmarkBtn i, #bookmarkCancelBtn i {
+	color: #f7c63a;
+}
+
+.campsite-yellow {
+	color: #D9BF77;
+}
+
+.location-info-map {
+	width: 95%;
+    height: 33rem;
+}
+
+.swiper-container {
+	height: 300px;
+}
+
+.swiper-slide {
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.swiper-slide img {
+	width: 280px;
+	height: 250px;
+}
+
+.swiper-button-prev {
+	background-image: url("../../images/community/review/caret-left-solid.svg")!important;
+	background-size: 13px!important;
+}
+
+.swiper-button-next {
+	background-image: url("../../images/community/review/caret-right-solid.svg")!important;
+	background-size: 13px!important;
+}
+/* infoView.jsp end */
+
+/* map 공통 start */
+.map-facltNm {
+	position: relative;
+	bottom: 35px;
+	border-radius: 5px;
+	float: left;
+}
+
+.map-facltNm:nth-of-type(n) {
+	border: 0;
+	box-shadow: 0px 1px 2px #888;
+}
+
+.map-facltNm a {
+	display: block;
+	text-decoration: none;
+	color: black;
+	text-align: center;
+	border-radius: 5px;
+	font-size: .8rem;
+	font-weight: bold;
+	overflow: hidden;
+	background: #639A67 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 7px center / .4rem;
+}
+
+.map-facltNm span {
+	text-align: center;
+	background: white;
+	margin-right: 20px;
+	padding: 5px 10px;
+}
+
+#map img[alt='마커이미지'] {
+	filter: invert(54%) sepia(9%) saturate(1510%) hue-rotate(74deg) brightness(100%) contrast(88%);
+}
+/* map 공통 end */

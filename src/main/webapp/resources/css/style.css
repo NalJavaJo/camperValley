@@ -1,0 +1,108 @@
+@charset "UTF-8";
+/* web font */
+@font-face {
+    font-family: 'GoyangIlsan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GoyangIlsan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GoYangIlSan';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanLight.ttf') format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GoYangIlSan';
+    font-weight: 400;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/goyang/GoYangIlSanRegular.ttf') format("truetype");
+    font-display: swap;
+}
+/* container 너비 사용자화 */
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1200px;
+	}
+}
+/* camper color */
+.bg-camper-color {background-color: #639A67}
+.camper-color {color: #639A67}
+
+/* ---- EJ start ---- */
+.btn-camper-color {
+	color: #fff;
+    background-color: #639A67;
+    border-color: #639A67;
+}
+.btn-camper-color:hover {
+    color: #fff;
+    background-color: #467249;
+    border-color: #467249;
+}
+.btn-camper-red {
+	color: #fff;
+    background-color: #c7392b;
+    border-color: #c7392b;
+}
+.btn-camper-red:hover {
+    color: #fff;
+    background-color: #AD1C0E;
+    border-color: #AD1C0E;
+}
+.border-camper-color {
+	border-color: #639A67
+}
+.btn-outline-camper-color {
+	color: #639A67;
+	border-color: #639A67;
+}
+.btn-outline-camper-color:hover{
+	color: #fff;
+    background-color: #639A67;
+    border-color: #639A67;
+}
+/* ---- EJ end ---- */
+
+body {
+	padding-top: 130px;
+	width: 1200px;
+}
+* {
+    font-family: 'GoYangIlSan';
+    list-style-type: none;
+}
+#navbarMain {
+    height: 100px;
+    background-color: white;
+}
+#navbarMain img {
+	cursor: pointer;
+}
+.nav-item * {font-size: 15px;}
+.navbar-brand, .bar {font-size: 12px;}
+.navbar-brand {cursor: pointer;}
+
+#logout {
+	font-size: 12px;
+}
+
+/* ----- footer ----- */
+footer div {
+	font-size: 13px;
+}
+#campervalleyInfo img {
+	width: 110px;
+}
+#campervalleyCall {
+	padding-right: 120px;
+}

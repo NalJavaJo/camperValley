@@ -1,0 +1,243 @@
+/* footer 임시 */
+footer {
+	margin-top: 200px;
+}
+
+.notice-box a {
+	font-size: 14px;
+}
+
+/* 페이지바 */
+.page-item.active span.page-link {
+	background-color: #639A67;
+    border-color: #639A67;
+}
+
+.page-item .page-link {
+	color: #2B380C;
+}
+.page-item .page-link:hover {
+	color: #2B380C;
+}
+
+/* 버튼 */
+button.btn-primary, button.btn-primary:hover {
+	background-color: #639A67;
+	border: #639A67;
+}
+
+button.btn-outline-primary {
+	color: #639A67;
+    border-color: #639A67;
+}
+
+button.btn-outline-primary:hover {
+	background-color: #639A67;
+	color: #fff;
+	border-color: #639A67;
+}
+
+/* noticeList */
+#tb-notice th, #tb-notice td {
+	padding: 15px;
+	font-size: 0.9rem;
+}
+
+#tb-notice td, #tb-notice td>a {
+	color: #616060;
+}
+
+.container {
+	padding: 0px;
+}
+
+.cs-bar {
+	margin-bottom: 12px;
+}
+
+.cs-bar a {
+	color: #777;
+	font-weight: bold;
+}
+
+.cs-bar a:hover {
+	color: #777;
+}
+
+.cs-header {
+	margin-bottom: 70px;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+.bar-notice, .bar-faq {
+	padding-bottom: 5px;
+}
+
+.bar-notice {
+	margin-right: 15px;
+}
+
+.btn-search {
+	border: 1px solid #dee2e6;
+	background-color: #fff;
+}
+
+.input-search {
+	border: 1px solid #dee2e6;
+	padding-left: 10px;
+	width: 170px;
+	margin-right: -7px;
+}
+
+.search-group {
+	display: flex;
+	font-size: 13px;
+	height: 28px;
+}
+
+#search-type {
+	border: 1px solid #dee2e6;
+	color: #777;
+}
+
+
+input:focus {
+	outline: none;
+}
+
+#tb-notice a {
+	color: black;
+}
+
+/* noticeEnroll, noticeUpdate */
+.input-notice {
+	padding-bottom: 30px;
+}
+
+#tb-notice-enroll {
+	font-size: 14px;
+}
+
+textarea {
+	resize: none;
+}
+
+tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+/* noticeDetail */
+.noticeDetail_head {
+	border-top: 1px solid #bdbdbd;
+	margin-top: 15px;
+}
+
+.noticeSecond_head {
+	border-top: 1px solid #bdbdbd;
+	border-bottom: 1px solid #bdbdbd;
+	padding: 5px;
+}
+
+.notice__head {
+	font-size: 16px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding: 7px;
+	padding-left: 4px;
+	font-weight: bold;
+}
+
+.noticeDetail_view {
+	border-bottom: 1px solid #dbdbdb;
+	padding: 10px;
+	padding-bottom: 30px;
+}
+
+.noticeDetail_view p {
+	font-size: 14px;
+}
+
+.noticeDetail_date {
+	font-size: 13px;
+}
+
+.noticeDetail_read {
+	font-size: 13px;
+	float: right;
+}
+
+.notice-box {
+	border-bottom: 1px solid #dbdbdb;
+	padding: 8px;
+}
+
+.prev, .next {
+	float: left;
+	margin-left: 90px;
+	margin-right: 130px;
+	color: #777;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.notice-box a {
+	color: black;
+}
+
+/* faq */
+.q_img {
+	float: right;
+}
+
+.icon_a {
+	text-align: center;
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	color: #777;
+	line-height: 30px;
+	font-size: 16px;
+	border-radius: 50%;
+}
+
+.icon_q {
+	text-align: center;
+	display: inline-block;
+	font-weight: bold;
+	width: 32px;
+	height: 32px;
+	color: #639A67;
+	line-height: 30px;
+	font-size: 16px;
+	border-radius: 50%;
+}
+
+.article {
+	border-top: 1px solid #dbdbdb;
+}
+
+.q {
+	margin: 0px;
+	padding: 10px;
+}
+
+.a {
+	border-top: 1px solid #dbdbdb;
+	background-color: #fafafa;;
+	padding: 10px;
+	margin: 0px;
+}
+
+.article {
+	list-style: none;
+}
+
+.article a, .article a:hover {
+	text-decoration: none;
+	color: #000;
+}
+.notice-box a, .notice-box a:hover {
+	text-decoration: none;
+	color: #000;
+}

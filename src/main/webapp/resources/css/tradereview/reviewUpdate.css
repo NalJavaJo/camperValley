@@ -1,0 +1,30 @@
+@charset "UTF-8";
+.text-13{font-size: 13px;}
+.text-15{font-size: 15px;}
+.text-18{font-size: 18px;}
+.text-20{font-size: 20px;}
+.text-25{font-size: 25px;}
+
+@media (min-width: 576px) {
+	.modal-dialog {
+		max-width: 600px;
+	}
+}
+#reviewUpdate #starScore {
+	border-style: none;
+	width: 15px;
+}
+#reviewUpdate #ctent {
+	background-color: rgb(245, 245, 245);
+	font-size: 12px;
+	border-color: #639A67;
+	outline: none;
+	resize: none;
+}
+.fa-star {
+	cursor: pointer;
+	color: rgb(230, 185, 20);
+}
+#reviewUpdate .label {
+	vertical-align: top;
+}

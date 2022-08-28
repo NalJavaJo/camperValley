@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.member.model.dao.MemberDao">
+	<insert id="insertMember">
+		insert into
+		    member(
+		        member_id,
+		        name,
+		        nickname,
+		        password,
+		        email,
+		        tel
+		        )
+		values(
+			#{memberId},
+			#{name},
+			#{nickname},
+			#{password},
+			#{email},
+			#{tel}
+			)
+	</insert>
+	<insert id="insertAuthority">
+		insert into 
+			authority
+		values(
+			 #{auth}, #{memberId}
+			 )	
+	</insert>
+	
+	<select id="selectOneMember" resultType="member">
+		select
+			*
+		from
+			member
+		where
+			${attribute} = #{value}
+	</select>
+	
+	<select id="selectIDByNameAndEmail" resultType="string">
+	 select
+	 	member_id
+	 from
+	 	member
+	 where
+	 	name = #{name} 
+	 	and
+	 	email = #{email}
+	</select>
+	
+	<update id="updateMember">
+		update
+			member
+		set
+			nickname = #{nickname},
+			password = #{password},
+			email = #{email},
+			tel= #{tel},
+			profile_img= #{profileImg},
+			updated_at = sysdate
+		where
+			member_id = #{memberId}
+	</update>
+	
+	<update id="updatePassword">
+		update
+			member
+		set
+			password = #{password}
+		where
+			email = #{email}
+	</update>
+	
+	<update id="updateMemberWithdrawal">
+		update
+			member
+		set
+			enabled = 0, withdrawal = 'Y', email = null, profile_img = null
+		where
+			member_id = #{memberId}
+	</update>
+	
+	
+</mapper>

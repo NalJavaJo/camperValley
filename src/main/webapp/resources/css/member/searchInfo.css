@@ -1,0 +1,25 @@
+@charset "UTF-8";
+div.container{
+	margin-bottom: 6rem;
+	width: 35%;
+	border-color: #639A67 solid 1px;
+}
+#search-my-info a.camper-color, #search-my-info h5 {
+	border-bottom: solid 2px #639A67;
+}
+#search-my-info a{
+	font-size: larger;
+	border-radius: 0;
+	border-bottom: 1px solid lightgray;
+}
+#search-my-info p{
+	font-size: smaller;
+}
+#search-my-info .resend{
+	font-size: smaller;
+	color: #D9BF77;
+}
+#search-my-info button.resend:focus{
+	box-shadow: none;
+}
+

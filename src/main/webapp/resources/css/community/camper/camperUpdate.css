@@ -1,0 +1,53 @@
+@charset "UTF-8";
+.text-13 {font-size: 13px;}
+.text-15 {font-size: 15px;}
+.text-20 {font-size: 20px;}
+.text-22 {font-size: 22px;}
+
+@media (min-width: 576px) {
+	.modal-dialog {
+		max-width: 700px;
+	}
+}
+.modal-content{
+    width: 1000px;
+    margin: auto;
+    padding: 0;
+}
+#camperUpdate label {
+	font-size: 15px;
+	width: 120px;
+}
+
+#camperUpdate input, #camperUpdate textarea, #camperUpdate select {
+	margin: 10px 0 10px 20px;
+	font-size: 12px;
+	outline: 1px solid rgba(0, 50, 0, 0.5);
+	border-style: none;
+	padding: 10px;
+}
+
+#camperUpdate input.input-daterange {
+	background-color: #fff !important;
+	outline: 1px solid rgba(0, 50, 0, 0.5);
+	border-style: none;
+	border-radius: 0;
+}
+#camperUpdate select {
+	width: 30%;
+}
+#camperUpdate textarea {
+	resize: none;
+}
+#camperUpdate .input {
+	height: 30px;
+}
+#camperUpdate .label {
+	vertical-align: top;
+	width: 180px;
+}
+#camperUpdate input::-webkit-inner-spin-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}

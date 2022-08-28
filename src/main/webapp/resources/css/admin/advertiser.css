@@ -1,0 +1,74 @@
+.formBox {
+	height: 5rem;
+	border: 1px solid #ddd;
+	border-radius: .5rem;
+	box-shadow: 0.2rem 0.2rem 0.4rem #00000010;
+}
+
+form[name="searchAdvertiserFrm"] {
+	width: 54rem;
+	margin: 0;
+}
+
+.filterWrapper label {
+	font-size: .93rem;
+	margin: 0 .65rem 0 0;
+}
+
+.filterWrapper input{
+	width: 7rem;
+}
+.filterWrapper select {
+	width: 6rem;
+}
+
+#tblAdvertiserList thead {
+	background-color: #f0f0f0;
+	height: 2rem;
+}
+
+#tblAdvertiserList td {
+	font-size: 0.9rem;
+	vertical-align: middle;
+	padding: 0.1rem 0.3rem;
+	text-align: center;
+	height: 2rem;
+}
+
+#tblAdvertiserList td a {
+	color: #D9BF77;
+}
+
+#tblAdvertiserList td a:hover {
+	color: #639A67;
+}
+
+#tblAdvertiserList td i {
+	font-size: 1.2rem;
+}
+
+.permission {
+	color: #639A67;
+}
+.waiting {
+	color: #D9BF77;
+}
+.pause {
+	color: #AD1C0E;
+}
+.withdrawal {
+	color: #aaa;
+}
+
+.pagebar a {
+	font-weight: normal;
+}
+
+.page-item .page-link {
+	color: #2B380C;
+}
+
+.page-item.active span.page-link {
+	background-color: #639A67;
+    border-color: #639A67;
+}

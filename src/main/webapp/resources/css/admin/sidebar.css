@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.dropdown-toggle:after {
+	margin-left: 7px;
+}
+
+.admin-info {
+	font-size: 1.3rem;
+	margin-bottom: 27px;
+	font-weight: bold;
+	color: #777;
+	border-bottom: 2px solid #777;
+	padding-bottom: 25px;
+}
+
+.admin-info a:hover {
+	color: black !important;
+}
+
+#sidebar a:hover, #sidebar a:focus {
+	text-decoration: none;
+}
+
+#sidebar a {
+	color: #000;
+	font-weight: bold;
+}
+
+#sidebar {
+	transition: all 0.3s;
+	width: 150px;
+	margin-left: 18px;
+	margin-right: 65px;
+}
+
+#sidebar ul li a {
+	padding: 10px;
+	font-size: 0.95em;
+	display: block;
+}
+
+#sidebar ul li a:hover {
+	color: #639A67;
+}
+
+ul ul a {
+	font-size: 0.87em !important;
+	color: #777 !important;
+	padding-left: 30px !important;
+}

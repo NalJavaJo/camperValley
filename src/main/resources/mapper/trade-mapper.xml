@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.mypage.trade.model.dao.TradeDao">
+
+	<select id="sellingListByMemberId" resultType="UsedProduct">
+		select
+		    *
+		from
+		    (
+		    select *
+		    from
+		    	used_product
+		    where seller_id = #{memberId}
+		        and
+		           transaction_date is null
+		       	and
+		       		is_delete = 'N'
+		    order by
+		    	product_enroll_time desc
+		    )
+		where
+			rownum between 1 and #{numPerReq}
+	</select>
+	
+	<select id="soldListByMemberId" resultType="UsedProduct">
+		select
+		    *
+		from
+		    (
+		    select *
+		    from
+		    	used_product
+		    where seller_id = #{memberId}
+		        and
+		           transaction_date is not null
+		       	and
+		       		is_delete = 'N'		        
+		    order by
+		    	transaction_date desc
+		    )
+		where
+			rownum between 1 and #{numPerReq}
+	</select>
+	<!-- JH -->	
+	<select id="purchasedListByMemberId" resultType="UsedProductExt">
+		select
+		    *
+		from
+		    (
+		    select *
+		    from
+		    	used_product u left join trade_review t
+		    		on(u.product_no = t.product_no)
+		    where buyer_id = #{memberId}
+		        and
+		           transaction_date is not null
+		    order by
+		    	transaction_date desc
+		    )
+		where
+			rownum between 1 and #{numPerReq}
+	</select>
+	<!-- JH -->	
+	<select id="wishListByMemberId" resultType="WishExt">
+		select 
+			*
+		from(
+			select
+				w.*, u.product_title, u.product_price, u.product_img1,u.product_location
+			from
+				wish_product w join (select
+										u.* 
+									from 
+                                    	used_product u join member m
+                                        on u.seller_id = m.member_id
+                                    where
+                                    	m.withdrawal = 'N' ) u
+				on
+				w.product_no = u.product_no
+			where
+				member_id = #{memberId}
+				and
+				transaction_date is null
+		       	and
+		       	is_delete = 'N'
+			 order by wish_no desc
+			) 
+		where
+			rownum between 1 and #{numPerReq}
+	</select>
+	
+	<select id="selectMoreSellingProduct" resultType="UsedProduct">
+		select 
+		  	*
+		from
+		  	used_product
+		where
+			seller_id = #{memberId}
+		    and
+ 	    	transaction_date is null
+			and
+		    is_delete = 'N' 	    	
+		order by
+		    product_enroll_time desc
+	</select>
+	
+	<select id="selectMoreSoldProduct" resultType="UsedProduct">
+		select 
+		  	*
+		from
+		  	used_product
+		where
+			seller_id = #{memberId}
+		    and
+ 	    	transaction_date is not null
+			and
+		    is_delete = 'N' 
+		order by
+		    transaction_date desc
+	</select>
+	
+	<delete id="wishDelete">
+		delete from
+			wish_product
+		where
+			wish_no = #{wishNo}
+	</delete>
+	
+	<update id="updateProductSetDelete">
+		update
+			used_product
+		set
+			is_delete = 'Y'
+		where
+			product_no = #{productNo}
+	</update>
+	
+	<select id="selectMorePuschasedProduct" resultType="UsedProductExt">
+		select
+			*
+	    from
+	    	used_product u left join trade_review t
+	    		on(u.product_no = t.product_no)
+	    where
+	    	buyer_id = #{memberId}
+	        and
+	        transaction_date is not null
+	    order by
+	    	transaction_date desc
+	</select>
+	
+		<select id="selectMoreWishProduct" resultType="WishExt">
+			select
+				w.*, u.product_title, u.product_price, u.product_img1,u.product_location
+			from
+				wish_product w join (select
+										u.* 
+									from 
+                                    	used_product u join member m
+                                        on u.seller_id = m.member_id
+                                    where
+                                    	m.withdrawal = 'N' ) u
+				on
+				w.product_no = u.product_no
+			where
+				member_id = #{memberId}
+				and
+				transaction_date is null
+			 order by wish_no desc
+	</select>
+
+</mapper>

@@ -1,0 +1,125 @@
+@charset "UTF-8";
+.text-13 {font-size: 13px;}
+.text-15 {font-size: 15px;}
+.text-18 {font-size: 18px;}
+.text-20 {font-size: 20px;}
+.text-25 {font-size: 25px;}
+
+/* reviewList.jsp start */
+.campsite-review-list-wrap {
+	width: 95%;
+}
+
+.review-list-table th, .review-list-table td {
+	font-size: .9rem;
+}
+
+.review-list-table tbody tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.review-title {
+	color: black;
+}
+
+.review-title:hover {
+	color: #639A67;
+}
+/* reviewList.jsp end */
+
+/* reviewErnoll.jsp start */
+.campsite-review-enroll-wrap {
+	width: 95%;
+}
+/* reviewEnroll.jsp end */
+
+.chk_box { display: block; position: relative; padding-left: 23px; margin-bottom: 10px; cursor: pointer; font-size: 14px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+/* 기본 체크박스 숨기기 */
+.chk_box input[type="checkbox"] { display: none; }
+.off {width: 6px; height: 10px; border: solid rgb(225, 225, 225); border-width: 0 2px 2px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); position: absolute; left: 6px; top: 2px;  }
+.on {width: 6px; height: 10px; border: solid #639A67; border-width: 0 2px 2px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); position: absolute; left: 6px; top: 2px;  }
+#listSection {
+	width: 400px;
+}
+#listSection li {
+	font-size: 0.9rem;
+}
+#detailSection {
+	width: 600px;
+	height: 85vh;
+	position: sticky;
+	top: 130px;
+}
+
+/* boardBox */
+.boardBoxSelect {
+	border: 1px solid black;
+	border-radius: 20px;
+}
+.boardBox {
+	border: 1px solid rgb(175, 175, 175);
+	border-radius: 20px;
+}
+.boardBoxSelectInfo, #dropdown {
+	cursor: pointer
+}
+#detailBody {
+	border-top: 1px solid rgb(175, 175, 175);
+	border-bottom: 1px solid rgb(175, 175, 175);
+	overflow: auto;
+	height: 350px;
+}
+#detailFooter label {
+	color: #d9bf77;
+}
+#detailFooter #chatUrl {
+	cursor: pointer;
+	background-color: white;
+}
+
+
+/* ----------- dropdown custom --------------*/
+.drop-down {
+    position: relative;
+}
+
+.drop-down-1 {
+    z-index: 1;
+}
+
+.drop-down .selected i {
+    background: #fff no-repeat scroll right center;
+    cursor: pointer;
+}
+
+.drop-down .options ul {
+    background: #fff none repeat scroll 0 0;
+    display: none;
+    list-style: none;
+    padding: 0px 0px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    box-sizing: border-box;
+    border: 1px solid #363636;
+    border-top: none;
+}
+
+.drop-down .options span.value {
+    display: none;
+}
+
+.drop-down .options ul li {
+    padding: 5px;
+    display: block;
+    text-decoration: none;
+    box-sizing: border-box;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.drop-down .options ul li:hover {
+    color: white;
+    background-color: #639A67;
+    transition: 0.2s ease;
+}

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.campervalley.campsite.model.dao.CampsiteDao">
+
+<insert id="insertCampsite">
+	merge 
+		into campsite
+	using dual
+		on (content_id = #{contentId})
+	when not matched then
+		insert (
+			content_id, faclt_nm, line_intro, intro, 
+			faclt_div_nm, induty, lct_cl, addr1, addr2, 
+			map_X, map_y, tel, homepage, resve_cl, 
+			oper_pd_cl, oper_de_cl, posbl_fclty_cl, 
+			thema_envrn_cl, first_image_url)
+		values (
+			#{contentId}, #{facltNm}, #{lineIntro}, #{intro}, 
+			#{facltDivNm}, #{induty}, #{lctCl}, #{addr1}, #{addr2}, 
+			#{mapX}, #{mapY}, #{tel}, #{homepage}, #{resveCl}, 
+			#{operPdCl}, #{operDeCl}, #{posblFcltyCl}, 
+			#{themaEnvrnCl}, #{firstImageUrl})
+</insert>
+
+<insert id="insertCampsiteFacility">
+	merge 
+		into campsite_facility
+	using dual
+		on (content_id = #{contentId})
+	when not matched then
+		insert (
+			content_id, gnrl_site_co, auto_site_co, glamp_site_co,
+			carav_site_co, indvdl_carav_site_co, site_mg1_width, site_mg2_width, site_mg3_width,
+			site_mg1_vrticl, site_mg2_vrticl, site_mg3_vrticl, site_mg1_co, site_mg2_co, site_mg3_co, 
+			site_bottom_cl1, site_bottom_cl2, site_bottom_cl3, site_bottom_cl4, site_bottom_cl5, 
+			glamp_inner_fclty, carav_inner_fclty, trler_acmpny_at,carav_acmpny_at,
+			toilet_co, swrm_co, wtrpl_co, brazier_cl, 
+			sbrs_cl, sbrs_etc, extshr_co, frprvt_wrpp_co, frprvt_sand_co, 
+			eqpmn_lend_cl, animal_cmg_cl)
+		values (
+			#{contentId}, #{gnrlSiteCo}, #{autoSiteCo}, #{glampSiteCo}, 
+			#{caravSiteCo}, #{indvdlCaravSiteCo}, #{siteMg1Width}, #{siteMg2Width}, #{siteMg3Width}, 
+			#{siteMg1Vrticl}, #{siteMg2Vrticl}, #{siteMg3Vrticl}, #{siteMg1Co}, #{siteMg2Co}, #{siteMg3Co}, 
+			#{siteBottomCl1}, #{siteBottomCl2}, #{siteBottomCl3}, #{siteBottomCl4}, #{siteBottomCl5}, 
+			#{glampInnerFclty}, #{caravInnerFclty}, #{trlerAcmpnyAt}, #{caravAcmpnyAt}, 
+			#{toiletCo}, #{swrmCo}, #{wtrplCo}, #{brazierCl}, 
+			#{sbrsCl}, #{sbrsEtc}, #{extshrCo}, #{frprvtWrppCo}, #{frprvtSandCo}, 
+			#{eqpmnLendCl}, #{animalCmgCl})
+</insert>
+
+<insert id="insertCampsiteImage">
+	merge 
+		into campsite_image
+	using dual
+		on (content_id = #{contentId})
+	when not matched then
+		insert (serialnum, content_id, image_url)
+		values (#{serialnum}, #{contentId}, #{imageUrl})
+</insert>
+
+<select id="recentCampsiteList" resultType="campsite">
+	select
+		rownum,
+		c.*
+	from (
+		select
+			*
+		from
+			campsite
+		order by
+			content_id desc
+		) c
+	where
+		rownum &lt;= 30
+</select>
+
+<select id="searchCampsiteList" resultType="campsite">
+	select
+		*
+	from
+		campsite
+	<where>
+		<if test="sido != null and sido != '' and gugun != null and gugun != ''">
+			addr1 like '%' || #{sido} || '%' ||' '|| '%' || #{gugun} || '%'
+		</if>
+		<if test="facltNm != null and facltNm != ''">
+			and faclt_nm like '%' || #{facltNm} || '%'
+		</if>
+		<if test="facltDivNm != null and facltDivNm !=''">
+	    	and faclt_div_nm in
+	        <foreach item="facltDivNm" index="index" collection="facltDivNm.split(',')"  open="(" separator="," close=")">
+	            #{facltDivNm}
+	        </foreach>
+		</if>
+		<if test="lctCl != null and lctCl !=''">
+	    	and lct_cl in
+	        <foreach item="lctCl" index="index" collection="lctCl.split(',')"  open="(" separator="," close=")">
+	            #{lctCl}
+	        </foreach>
+		</if>
+		<if test="themaEnvrnCl != null and themaEnvrnCl != ''">
+			and thema_envrn_cl = #{themaEnvrnCl}
+		</if>
+		<if test="induty != null and induty !=''">
+	    	and induty in
+	        <foreach item="induty" index="index" collection="induty.split(',')"  open="(" separator="," close=")">
+	            #{induty}
+	        </foreach>
+		</if>
+	</where>
+	order by
+		content_id desc
+</select>
+	
+<select id="searchCampsiteThemeList" resultType="campsite">
+	select
+		*
+	from
+		campsite
+	where
+		<!-- thema_envrn_cl in
+		<foreach item="themaEnvrnCl" index="index" collection="themaEnvrnCl.split(',')"  open="(" separator="," close=")">
+			#{themaEnvrnCl}
+		</foreach> -->
+		thema_envrn_cl = #{themaEnvrnCl}
+	order by
+		content_id desc
+</select>
+
+<select id="selectOneCampsite" resultType="campsiteExt">
+	select
+		*
+	from
+		campsite
+			left join campsite_facility
+				using(content_id)
+	where
+		content_id = #{contentId}
+</select>
+
+<select id="selectCampsiteImageListByContentId" resultType="campsiteImage">
+	select
+		*
+	from
+		campsite_image
+	where
+		content_id = #{contentId}
+</select>
+
+<select id="selectOneCampsiteFacility" resultType="campsiteFacility">
+	select
+		*
+	from
+		campsite_facility
+	where
+		content_id = #{contentId}
+</select>
+
+<!-- <resultMap type="campsiteExt" id="campsiteCollectionMap">
+	<id column="content_id" property="contentId"/>
+	<result column="faclt_nm" property="facltNm"/>
+	<result column="line_intro" property="lineIntro"/>
+	<result column="intro" property="intro"/>
+	<result column="faclt_div_nm" property="facltDivNm"/>
+	<result column="induty" property="induty"/>
+	<result column="lct_cl" property="lctCl"/>
+	<result column="addr1" property="addr1"/>
+	<result column="addr2" property="addr2"/>
+	<result column="map_x" property="mapX"/>
+	<result column="map_y" property="mapY"/>
+	<result column="tel" property="tel"/>
+	<result column="homepage" property="homepage"/>
+	<result column="resve_cl" property="resveCl"/>
+	<result column="oper_pd_cl" property="operPdCl"/>
+	<result column="oper_de_cl" property="operDeCl"/>
+	<result column="posbl_fclty_cl" property="posblFcltyCl"/>
+	<result column="thema_envrn_cl" property="themaEnvrnCl"/>
+	<result column="first_image_url" property="firstImageUrl"/>
+	
+	<collection property="facilities" javaType="arrayList" ofType="campsiteFacility">
+  		<id column="content_id" property="contentId"/>
+  		<result column="gnrl_site_co" property="gnrlSiteCo"/>
+  		<result column="auto_site_co" property="autoSiteCo"/>
+  		<result column="glamp_site_co" property="glampSiteCo"/>
+  		<result column="carav_site_co" property="caravSiteCo"/>
+  		<result column="indvdl_carav_site_co" property="indvdlCaravSiteCo"/>
+  		<result column="site_mg1_width" property="siteMg1Width"/>
+  		<result column="site_mg2_width" property="siteMg2Width"/>
+  		<result column="site_mg3_width" property="siteMg3Width"/>
+  		<result column="site_mg1_vrticl" property="siteMg1Vrticl"/>
+  		<result column="site_mg2_vrticl" property="siteMg2Vrticl"/>
+  		<result column="site_mg3_vrticl" property="siteMg3Vrticl"/>
+  		<result column="site_mg1_co" property="siteMg1Co"/>
+  		<result column="site_mg2_co" property="siteMg2Co"/>
+  		<result column="site_mg3_co" property="siteMg3Co"/>
+  		<result column="site_bottom_cl1" property="siteBottomCl1"/>
+  		<result column="site_bottom_cl2" property="siteBottomCl2"/>
+  		<result column="site_bottom_cl3" property="siteBottomCl3"/>
+  		<result column="site_bottom_cl4" property="siteBottomCl4"/>
+  		<result column="site_bottom_cl5" property="siteBottomCl5"/>
+  		<result column="glamp_inner_fclty" property="glampInnerFclty"/>
+  		<result column="carav_inner_fclty" property="caravInnerFclty"/>
+  		<result column="trler_acmpny_at" property="trlerAcmpnyAt"/>
+  		<result column="carav_acmpny_at" property="caravAcmpnyAt"/>
+  		<result column="toilet_co" property="toiletCo"/>
+  		<result column="swrm_co" property="swrmCo"/>
+  		<result column="wtrpl_co" property="wtrplCo"/>
+  		<result column="brazier_cl" property="brazierCl"/>
+  		<result column="sbrs_cl" property="sbrsCl"/>
+  		<result column="sbrs_etc" property="sbrsEtc"/>
+  		<result column="extshr_co" property="extshrCo"/>
+  		<result column="frprvt_wrpp_co" property="frprvtWrppCo"/>
+  		<result column="frprvt_sand_co" property="frprvtSandCo"/>
+  		<result column="eqpmn_lend_cl" property="eqpmnLendCl"/>
+  		<result column="animal_cmg_cl" property="animalCmgCl"/>
+  	</collection>	
+</resultMap> -->
+
+</mapper>

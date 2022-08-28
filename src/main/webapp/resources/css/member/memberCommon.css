@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.form-control:focus{
+    box-shadow: none;
+    border: #639A67 2px solid;
+}
+.form-control{
+    border: #639A67 1px solid;
+}
